@@ -33,22 +33,34 @@ fs.mkdirSync(uploadsDir, { recursive: true });
 // Helmet sets various HTTP security headers (CSP, HSTS, X-Frame, etc.)
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
-// CORS — allow localhost 8080 (Vite) and 5173
+// CORS — support comma-separated CORS_ORIGIN, localhost, and Vercel preview domains
+const configuredOrigins = (process.env.CORS_ORIGIN || "")
+  .split(",")
+  .map(s => s.trim())
+  .filter(Boolean);
+
 const allowedOrigins = [
-  process.env.CORS_ORIGIN || "http://localhost:8080",
+  ...configuredOrigins,
   "http://localhost:8080",
   "http://localhost:5173"
 ];
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.startsWith("http://localhost:")) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
+    if (!origin) return callback(null, true);
+    if (
+      process.env.CORS_ORIGIN === "*" ||
+      allowedOrigins.includes(origin) ||
+      origin.startsWith("http://localhost:") ||
+      origin.startsWith("http://127.0.0.1:")
+    ) {
+      return callback(null, true);
     }
+    callback(new Error("Not allowed by CORS: " + origin));
   },
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 // Global rate limiter — 100 requests per minute per IP

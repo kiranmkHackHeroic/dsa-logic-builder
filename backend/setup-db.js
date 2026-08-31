@@ -13,21 +13,25 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function setup() {
+  const dbUrl = process.env.DATABASE_URL || process.env.MYSQL_URL;
   const host = process.env.MYSQL_HOST || "localhost";
   const port = parseInt(process.env.MYSQL_PORT || "3306", 10);
   const user = process.env.MYSQL_USER || "root";
   const password = process.env.MYSQL_PASSWORD || "";
 
-  console.log(`Connecting to MySQL at ${host}:${port} as '${user}'...`);
-
   // First connect without a database to create it
   let conn;
   try {
-    conn = await mysql.createConnection({ host, port, user, password, multipleStatements: true });
+    const connConfig = dbUrl
+      ? { uri: dbUrl, multipleStatements: true, ssl: process.env.MYSQL_SSL === "true" ? { rejectUnauthorized: false } : undefined }
+      : { host, port, user, password, multipleStatements: true, ssl: process.env.MYSQL_SSL === "true" ? { rejectUnauthorized: false } : undefined };
+
+    console.log(dbUrl ? `Connecting to MySQL via connection URL...` : `Connecting to MySQL at ${host}:${port} as '${user}'...`);
+    conn = await mysql.createConnection(connConfig);
     console.log("✅ Connected to MySQL!");
   } catch (err) {
     console.error("❌ Failed to connect to MySQL:", err.message);
-    console.error("\nPlease check your MYSQL_PASSWORD in server/.env");
+    console.error("\nPlease check your MYSQL credentials in backend/.env");
     process.exit(1);
   }
 

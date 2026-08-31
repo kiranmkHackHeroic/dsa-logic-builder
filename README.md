@@ -9,7 +9,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-4.19-000000?logo=express&logoColor=white)](https://expressjs.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-Flash%20AI-8E75C2?logo=google&logoColor=white)](https://aistudio.google.com/)
+[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-3.6%20Flash-8E75C2?logo=google&logoColor=white)](https://aistudio.google.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 <br/>
@@ -19,11 +19,13 @@
 
 <br/>
 
-<img src="./docs/screenshots/dsa_workspace.jpg" alt="DSA Logic Builder Workspace" width="900" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);" />
+<p align="center">
+  <img src="./docs/screenshots/problem_flow_7step.png" alt="7-Step DSA Problem Flow" width="880" style="border-radius: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.1);" />
+</p>
 
-<br/><br/>
+<br/>
 
-[Explore Features](#-key-features) • [How It Works](#-how-it-works) • [7-Step Framework](#-the-7-step-logic-framework) • [Quickstart](#-getting-started) • [Deployment](#-deployment)
+[🌟 7-Step Framework](#-feature-spotlight-1-the-7-step-dsa-mastery-framework) • [🤖 AI Dry Run](#-feature-spotlight-2-ai-powered-code-dry-run-engine) • [Quickstart](#-getting-started) • [API Reference](#-api-endpoints) • [Deployment](#-deployment)
 
 </div>
 
@@ -31,99 +33,90 @@
 
 ## 🌟 Why DSA Logic Builder?
 
-Most competitive programmers struggle not because they don't know syntax, but because they **jump straight to code without understanding the underlying thought process**.
+Most competitive programmers and interview candidates struggle not because they lack programming syntax, but because they **jump straight to code without understanding the underlying thought process**.
 
-When faced with a complex problem in technical interviews, leaping into syntax causes syntax panic, unhandled edge cases, and off-by-one errors.
+When faced with an unseen problem in high-stakes technical interviews, rushing into syntax causes:
+- ❌ **Syntax panic** and blanking out.
+- ❌ **Off-by-one errors** and unhandled edge cases.
+- ❌ **Suboptimal brute-force solutions** that trigger Time Limit Exceeded (TLE).
 
-**DSA Logic Builder** solves this by enforcing a disciplined **7-step structured problem-solving methodology**, augmented with an **AI Code Dry Run engine powered by Google Gemini**, visual algorithm animations, company interview tracks, and streak analytics.
-
----
-
-## 📖 How It Works
-
-DSA Logic Builder guides you from an ambiguous problem description all the way to an optimized, bug-free implementation through an intuitive workflow:
-
-```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│ 1. Select Topic │ ──▶ │ 2. Mental Ladder │ ──▶ │ 3. Code Solution│
-│ Company/Pattern │     │ 7-Step Logic Flow│     │ Python/JS/Java  │
-└─────────────────┘     └──────────────────┘     └────────┬────────┘
-                                                          │
-                        ┌──────────────────┐              │
-                        │ 5. Visualizer &  │ ◀────────────┼──────────────┐
-                        │ Data Structures  │              ▼              ▼
-                        └──────────────────┘     ┌────────────────┐ ┌──────────┐
-                                                 │ 4. AI Dry Run  │ │ LeetCode │
-                                                 │ Gemini Tracing │ │  Export  │
-                                                 └────────────────┘ └──────────┘
-```
-
-### Step 1: Select Your Problem or Pattern
-Browse categorized problem banks by **algorithmic pattern** (e.g. *Sliding Window*, *Two Pointers*, *Fast & Slow Pointers*, *Monotonic Stack*) or by **target company** (*Google*, *Amazon*, *Meta*, *Microsoft*, *Apple*, *Uber*).
-
-### Step 2: Ascend the 7-Step Logic Progression
-Instead of opening an empty code editor, you are guided through the cognitive ladder:
-1. **Understand Problem**: Identify input/output types, numerical limits, and potential edge cases.
-2. **Human Thinking**: Walk through example cases on paper to identify human patterns before writing algorithms.
-3. **Brute Force**: Construct the naive solution, determine its theoretical time/space bounds, and identify why it's too slow.
-4. **Optimization**: Pinpoint redundant operations and apply optimal data structures (e.g. hash map lookup in $O(1)$ instead of nested loops in $O(n^2)$).
-5. **Final Approach**: Formulate concrete pseudocode, invariant checks, and step-by-step procedural steps.
-
-### Step 3: Implement Code & Trigger AI Dry Run
-Write your solution in **Python 3**, **JavaScript**, **Java**, or **C++**. 
-
-<div align="center">
-  <img src="./docs/screenshots/ai_dryrun_modal.jpg" alt="AI Code Dry Run Visualizer" width="850" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);" />
-</div>
-
-Click **`✨ AI Dry Run`** to inspect the inner workings of your code:
-- **Variable Inspector**: Watch how each variable, pointer, and hash map mutates on every single iteration.
-- **Interactive Player**: Step forward, step backward, or auto-play through execution steps.
-- **Asymptotic Complexity**: Instant calculation of time ($O$) and space ($O$) complexity.
-- **Edge-Case & Bug Warning**: Identifies any boundary condition risks before submitting.
-
-### Step 4: Step-by-Step Algorithm Visualization
-Switch to **Step 7 (Visualization)** to watch an interactive visual simulation of your algorithm in action — watching pointers advance across arrays, nodes traverse trees, and stacks push/pop in real-time.
-
-### Step 5: Save, Review, and Build Long-Term Retention
-- Solutions, logic scores, and step completions are automatically saved to your **MySQL database**.
-- Use the **Spaced Repetition Reviewer** and **Personalized Notes** to revisit tricky problems before big interviews.
-- Keep your daily streak alive on the **GitHub-style Contribution Heatmap**.
+**DSA Logic Builder** solves this through two signature pillars:
+1. **The 7-Step Problem-Solving Ladder** — A disciplined, sequential thinking framework.
+2. **AI-Powered Code Dry Run (Google Gemini)** — Real-time line-by-line simulation of your code showing live variable snapshots, bug detection, and complexity analysis.
 
 ---
 
-## 🚀 Key Features
+## 🎯 Feature Spotlight 1: The 7-Step DSA Mastery Framework
 
-### 🧩 The 7-Step Logic Progression
-- Step 1: **Understand** (Inputs, Outputs, Constraints)
-- Step 2: **Human Thinking** (Intuitive pen-and-paper walkthrough)
-- Step 3: **Brute Force** (Naive formulation & complexity bounds)
-- Step 4: **Optimization** (Pattern recognition & bottleneck reduction)
-- Step 5: **Final Approach** (Pseudocode & invariant verification)
-- Step 6: **Code & AI Dry Run** (Multi-language code editor with Gemini AI simulation)
-- Step 7: **Visualization** (Animated data structure simulations)
+Every single problem is broken down into structured, bite-sized cognitive stages. You master the logic before writing a single line of code.
 
-### 🤖 AI-Powered Code Dry Run (Google Gemini)
-- **Zero-Setup Fallback**: Operates out-of-the-box with an algorithmic trace engine even without an API key.
-- **Deep Gemini AI Integration**: Connect any free Google Gemini API key to simulate any arbitrary code line-by-line using `gemini-3.6-flash`.
-- **Live Variable State Inspection**: Real-time snapshot of variables, pointers, and hash maps.
-- **One-Click LeetCode Export**: Copies your verified code to your clipboard and opens the exact LeetCode problem page in a new tab.
+<p align="center">
+  <img src="./docs/screenshots/problem_flow_7step.png" alt="7-Step Problem Flow View" width="880" style="border-radius: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.1);" />
+</p>
 
-### 🏢 Company-Specific Question Banks
-- Practice targeted problem lists curated for top tech employers: **Google**, **Amazon**, **Meta**, **Microsoft**, **Apple**, and **Uber**.
-- Tagged with company interview frequency and difficulty.
+| Step | Stage Name | What Happens | Why It Matters |
+| :---: | :--- | :--- | :--- |
+| **1** | **Understand the Problem** | Extract input/output types, numeric constraints, and explain the problem in your own words. | Prevents solving the wrong problem or misunderstanding constraints. |
+| **2** | **Human Thinking** | Work through concrete small examples manually using pen-and-paper logic. | Uncovers the natural intuition humans use to solve the pattern. |
+| **3** | **Brute Force** | Formulate the naive solution, determine theoretical time/space bounds ($O(n^2)$ / $O(2^n)$), and identify bottlenecks. | Gives a guaranteed baseline solution and identifies redundant computations. |
+| **4** | **Optimization** | Discover algorithmic patterns (Two Pointers, Hash Map, Sliding Window, Monotonic Stack, DP). | Teaches pattern recognition across 15+ core algorithmic archetypes. |
+| **5** | **Final Approach** | Write structured pseudocode, establish loop invariants, and confirm time/space complexity. | Creates an airtight algorithmic blueprint before touching syntax. |
+| **6** | **Coding Step & AI Dry Run** | Implement in Python 3, JavaScript, Java, or C++ with test cases, code persistence, and live AI dry run. | Writes clean, verified code with instant bug detection. |
+| **7** | **Visualization** | Watch animated data structure simulations showing pointer movements, arrays, and trees. | Solidifies spatial memory of how data structures behave dynamically. |
 
-### 📊 Performance Analytics & Streaks
-- **Activity Heatmap**: Visual log of daily practice consistency.
-- **Daily Streak Counter**: Automatically logs active days and tracks longest streaks.
-- **Pattern Mastery Radar**: Visual overview of your strengths across major algorithmic patterns.
-- **Achievements & Badges**: Unlock milestones as you master new patterns.
+---
 
-### ⏱️ Interview & Productivity Tools
-- **Timed Mock Interview Mode**: Practice under realistic interview pressure without hints.
-- **Built-in Pomodoro Timer**: 25-minute focused problem-solving sprints.
-- **Code Comparison Tool**: Compare naive brute-force implementations side-by-side with optimal solutions.
-- **Personalized Notes & Bookmarks**: Annotate problems with key takeaways for quick review.
+## 🤖 Feature Spotlight 2: AI-Powered Code Dry Run Engine
+
+Writing code is only half the battle — understanding *how it executes* is where mastery happens. The **AI Dry Run** feature simulates your code in real-time using **Google Gemini AI (`gemini-3.6-flash`)**.
+
+<p align="center">
+  <img src="./docs/screenshots/ai_dryrun.png" alt="AI Code Dry Run in Action" width="880" style="border-radius: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.1);" />
+</p>
+
+### Key Capabilities of the AI Dry Run Visualizer:
+- **📊 Live Variables State Inspector**: An interactive snapshot table showing the exact values of all variables, pointers, counters, and hash maps at every single loop iteration.
+- **⏯️ Interactive Step Player**: Step through code at your own pace with **Previous Step**, **Next Step**, **Auto-Play**, and **Reset** controls.
+- **🚨 Automated Bug & Edge-Case Detection**:
+  - Automatically identifies unfulfilled stubs, missing returns, off-by-one errors, and incorrect indexing.
+  - Displays a prominent **`Bug Detected`** badge with specific, actionable suggestions on how to fix the logic.
+- **⚡ Complexity Verification**: Real-time evaluation of both **Time Complexity** ($O$) and **Space Complexity** ($O$) based on your code's loops and allocations.
+- **💡 Concrete Explanations**: Plain-English rationale detailing what each line accomplishes and why state changes occurred.
+- **🚀 One-Click LeetCode Export**: Copies your verified code to your clipboard and opens the exact problem page on LeetCode in a new tab.
+
+---
+
+## 📖 Complete Learning Workflow
+
+```
+┌─────────────────────────┐
+│ 1. Select Problem Track │
+│ Company (Google/Meta)   │
+│ Or Algorithmic Pattern  │
+└───────────┬─────────────┘
+            ▼
+┌─────────────────────────┐
+│ 2. Ascend 7-Step Ladder │
+│ Understand ➔ Intuition  │
+│ ➔ Brute Force ➔ Optimize│
+└───────────┬─────────────┘
+            ▼
+┌─────────────────────────┐
+│ 3. Multi-Language Code  │
+│ Python, JS, Java, C++   │
+└───────────┬─────────────┘
+            ▼
+┌─────────────────────────┐     ┌────────────────────────┐
+│ 4. Run AI Dry Run       │ ──▶ │ 5. Visualizer & Save   │
+│ Live Variables & Gemini │     │ Progress saved in MySQL│
+└─────────────────────────┘     └────────────────────────┘
+```
+
+1. **Pick a Track**: Choose problems by pattern (*Two Pointers*, *Sliding Window*, *Dynamic Programming*) or by top tech companies (*Google*, *Amazon*, *Meta*, *Microsoft*, *Apple*, *Uber*).
+2. **Solve Step-by-Step**: Walk through Steps 1 to 5 to plan your strategy.
+3. **Code & Trace**: Write your code in Step 6 and click **`✨ AI Dry Run`** to verify variable mutations and check for bugs.
+4. **Visualize**: Watch step 7 to see animated pointers and array operations.
+5. **Track Consistency**: Solutions, completion states, and streak dates are automatically persisted to your MySQL database. Review them anytime via the **Activity Heatmap** or **Spaced Repetition Dashboard**.
 
 ---
 
@@ -150,8 +143,8 @@ Switch to **Step 7 (Visualization)** to watch an interactive visual simulation o
 
 | Layer | Technology | Description |
 | :--- | :--- | :--- |
-| **Frontend** | React 18, TypeScript, Vite | Fast Single Page Application (SPA) with reactive state |
-| **Styling** | Tailwind CSS, shadcn/ui | Modern, responsive, dark/light accessible design system |
+| **Frontend** | React 18, TypeScript, Vite | Ultra-fast Single Page Application (SPA) |
+| **Styling** | Tailwind CSS, shadcn/ui | Dark/light accessible design system |
 | **Backend** | Node.js, Express.js | Secure RESTful API service |
 | **Database** | MySQL 8.0+ | Relational schema with transactional consistency |
 | **Authentication** | JSON Web Tokens (JWT), bcryptjs | Secure password hashing (12 salt rounds) |
@@ -207,7 +200,7 @@ JWT_SECRET=your-random-secret-key-change-in-production
 PORT=3001
 CORS_ORIGIN=http://localhost:8080
 
-# Google Gemini AI (Optional - for live AI dry runs)
+# Google Gemini AI (for live AI dry runs)
 # Get a free API key at: https://aistudio.google.com/app/apikey
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
@@ -221,7 +214,7 @@ VITE_API_URL=http://localhost:3001
 
 ### 4. Initialize the MySQL Database
 
-Run the database setup script to automatically create the database and tables:
+Run the automated setup script to create database tables:
 
 ```bash
 node server/setup-db.js
@@ -300,7 +293,9 @@ npm run dev:all
 ```
 dsa-logic-builder/
 ├── docs/                   # Documentation and screenshots
-│   └── screenshots/        # Workspace & Dry Run preview images
+│   └── screenshots/        # Real application preview images
+│       ├── ai_dryrun.png
+│       └── problem_flow_7step.png
 ├── public/                 # Static assets and icons
 ├── server/                 # Express backend
 │   ├── middleware/         # JWT authentication and RBAC guards

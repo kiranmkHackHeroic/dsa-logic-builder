@@ -25,7 +25,7 @@
 
 <br/>
 
-[🌟 7-Step Framework](#-feature-spotlight-1-the-7-step-dsa-mastery-framework) • [🤖 AI Dry Run](#-feature-spotlight-2-ai-powered-code-dry-run-engine) • [Quickstart](#-getting-started) • [API Reference](#-api-endpoints) • [Deployment](#-deployment)
+[🌟 7-Step Framework](#-feature-spotlight-1-the-7-step-dsa-mastery-framework) • [🤖 AI Dry Run](#-feature-spotlight-2-ai-powered-code-dry-run-engine) • [Quickstart](#-getting-started) • [API Reference](#-api-endpoints) • [Project Structure](#-project-structure)
 
 </div>
 
@@ -265,26 +265,6 @@ npm run dev:all
 | `POST` | `/api/streaks/checkin` | Record daily activity check-in | Yes |
 | `PUT` | `/api/profiles` | Update display name or preferences | Yes |
 | `POST` | `/api/profiles/avatar` | Upload profile image (multipart/form-data) | Yes |
-
----
-
-## 🚀 Deployment
-
-### 1. Deploy Backend & MySQL Database (Railway or Render)
-1. Provision a MySQL 8.0 instance on [Railway](https://railway.app) or [Aiven](https://aiven.io).
-2. Execute `server/schema.sql` against the database to create all tables.
-3. Deploy the `/server` directory to Railway or Render:
-   - **Root Directory**: `server`
-   - **Start Command**: `node index.js`
-   - **Environment Variables**: Add your database credentials, `JWT_SECRET`, `GEMINI_API_KEY`, and set `CORS_ORIGIN` to your frontend domain.
-
-### 2. Deploy Frontend (Vercel)
-1. Import your GitHub repository to [Vercel](https://vercel.com).
-2. Configure:
-   - **Framework Preset**: `Vite`
-   - **Root Directory**: `./`
-   - **Environment Variable**: `VITE_API_URL=https://your-backend-api.railway.app`
-3. Click **Deploy**.
 
 ---
 

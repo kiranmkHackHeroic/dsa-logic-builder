@@ -171,19 +171,21 @@ cd dsa-logic-builder
 ### 2. Install Dependencies
 
 ```bash
-# Install frontend dependencies
-npm install
+# Install root, frontend, and backend dependencies with a single command:
+npm run install:all
 
-# Install backend dependencies
-cd server && npm install && cd ..
+# Or install manually:
+npm install
+npm install --prefix frontend
+npm install --prefix backend
 ```
 
 ---
 
 ### 3. Configure Environment Variables
 
-#### Backend (`server/.env`)
-Create `server/.env` (or copy from `server/.env.example`):
+#### Backend (`backend/.env`)
+Create `backend/.env` (or copy from `backend/.env.example`):
 
 ```env
 # MySQL Database Configuration
@@ -205,7 +207,7 @@ CORS_ORIGIN=http://localhost:8080
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-#### Frontend (`.env.local` - Optional)
+#### Frontend (`frontend/.env.local` - Optional)
 ```env
 VITE_API_URL=http://localhost:3001
 ```
@@ -217,17 +219,18 @@ VITE_API_URL=http://localhost:3001
 Run the automated setup script to create database tables:
 
 ```bash
-node server/setup-db.js
+npm run setup:db
+# or: node backend/setup-db.js
 ```
 
 ---
 
 ### 5. Launch the Application
 
-Run both frontend and backend concurrently:
+Run both frontend and backend concurrently from the root:
 
 ```bash
-npm run dev:all
+npm run dev
 ```
 
 - **Frontend Application**: `http://localhost:8080`
@@ -272,34 +275,32 @@ npm run dev:all
 
 ```
 dsa-logic-builder/
-├── docs/                   # Documentation and screenshots
-│   └── screenshots/        # Real application preview images
-│       ├── ai_dryrun.png
-│       └── problem_flow_7step.png
-├── public/                 # Static assets and icons
-├── server/                 # Express backend
-│   ├── middleware/         # JWT authentication and RBAC guards
-│   ├── routes/             # Auth, AI Dry Run, Progress, Streaks, Profiles
-│   ├── db.js               # MySQL connection pool
-│   ├── schema.sql          # Full database schema and indexes
-│   ├── setup-db.js         # Automated schema initializer
-│   └── index.js            # Express server entry point
-├── src/
-│   ├── components/
-│   │   ├── features/       # Heatmaps, timers, notes, forums, contests
-│   │   ├── layout/         # Responsive Navbar, Footer, Page Layouts
-│   │   ├── problem/        # 7-Step logic components & DryRunModal
-│   │   └── ui/             # Radix UI + Tailwind design components
-│   ├── contexts/           # Authentication and subscription state
-│   ├── data/               # Curated problems and company tracks
-│   ├── hooks/              # Custom hooks (progress, streaks, bookmarks)
-│   ├── lib/                # API client, local storage, utilities
-│   ├── pages/              # Problem Solving, Dashboard, Analytics, Auth
-│   ├── App.tsx             # Route definitions and error boundary
-│   └── main.tsx            # Application entry point
-├── vercel.json             # Vercel SPA rewrites & security headers
-├── tailwind.config.ts      # Design system color tokens and typography
-└── vite.config.ts          # Vite build optimization
+├── frontend/                 # React 18, TypeScript, Tailwind, Vite Client
+│   ├── src/
+│   │   ├── components/       # 7-Step logic progression & UI components
+│   │   ├── contexts/         # Auth & subscription state
+│   │   ├── data/             # Problems & company question banks
+│   │   ├── hooks/            # Progress, streaks, bookmarks hooks
+│   │   └── pages/            # ProblemSolving, Dashboard, Analytics, Auth
+│   ├── public/               # Static icons and assets
+│   ├── index.html
+│   ├── vite.config.ts
+│   ├── tailwind.config.ts
+│   ├── package.json
+│   └── vercel.json           # SPA rewrites & security headers
+├── backend/                  # Node.js, Express, MySQL, Gemini AI API
+│   ├── routes/               # Auth, AI Dry Run, Progress, Streaks, Profiles
+│   ├── middleware/           # JWT verification & RBAC guards
+│   ├── db.js                 # MySQL connection pool
+│   ├── schema.sql            # Full database relational schema
+│   ├── setup-db.js           # Automated schema initializer
+│   ├── package.json
+│   └── index.js              # Express server entry point
+├── docs/                     # Documentation & UI screenshots
+│   └── screenshots/
+├── package.json              # Root monorepo scripts (dev, build, start)
+├── .gitignore
+└── README.md
 ```
 
 ---

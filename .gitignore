@@ -1,3 +1,30 @@
+# Dependencies
+node_modules
+frontend/node_modules
+backend/node_modules
+
+# Production builds
+dist
+frontend/dist
+dist-ssr
+frontend/dist-ssr
+.vite
+frontend/.vite
+
+# Environment files & secrets
+*.local
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+backend/uploads
+backend/reset-mysql-password.sh
+
 # Logs
 logs
 *.log
@@ -7,21 +34,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-.env
-.env.*
-!.env.example
-server/.env
-server/.env.*
-!server/.env.example
-server/node_modules
-server/uploads
-server/reset-mysql-password.sh
-
-# Editor directories and files
+# Editor & OS files
 .vscode/*
 !.vscode/extensions.json
 .idea

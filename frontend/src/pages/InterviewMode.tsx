@@ -18,6 +18,7 @@ import {
   Brain,
   Code,
   CheckCircle,
+  CheckCircle2,
   AlertCircle,
   ArrowRight,
   Check,

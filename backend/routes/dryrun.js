@@ -138,7 +138,7 @@ Respond ONLY with a valid JSON object adhering strictly to this JSON format (no 
 }`;
 
     // Call Gemini API using active Gemini models
-    const models = ["gemini-3.6-flash", "gemini-3-flash-preview", "gemini-3.7-flash"];
+    const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
     let responseData = null;
     let lastError = null;
 
@@ -167,7 +167,11 @@ Respond ONLY with a valid JSON object adhering strictly to this JSON format (no 
         const data = await response.json();
         const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
         if (rawText) {
-          responseData = JSON.parse(rawText);
+          const cleanText = rawText
+            .replace(/^```(?:json)?\s*/i, "")
+            .replace(/\s*```$/i, "")
+            .trim();
+          responseData = JSON.parse(cleanText);
           break;
         }
       } catch (err) {

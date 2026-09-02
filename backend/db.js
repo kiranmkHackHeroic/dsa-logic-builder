@@ -8,9 +8,21 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, "../.env.local") });
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
-const connectionConfig = process.env.DATABASE_URL || process.env.MYSQL_URL
+const rawUri = process.env.DATABASE_URL || process.env.MYSQL_URL;
+let cleanUri = rawUri;
+if (rawUri) {
+  try {
+    const parsed = new URL(rawUri);
+    parsed.searchParams.delete("ssl-mode");
+    cleanUri = parsed.toString();
+  } catch {
+    cleanUri = rawUri;
+  }
+}
+
+const connectionConfig = cleanUri
   ? {
-      uri: process.env.DATABASE_URL || process.env.MYSQL_URL,
+      uri: cleanUri,
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0,

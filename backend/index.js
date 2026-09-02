@@ -123,6 +123,7 @@ app.use((err, _req, res, _next) => {
 });
 
 // ── Start ────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`🚀 API server running on http://localhost:${PORT}`);
+const HOST = "0.0.0.0";
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 API server running on http://${HOST}:${PORT}`);
 });

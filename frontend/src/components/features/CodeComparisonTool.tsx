@@ -149,7 +149,7 @@ const CodeComparisonTool = () => {
   const rightSolution = sampleSolutions.find((s) => s.id === selectedRight)!;
 
   const getComplexityColor = (complexity: string) => {
-    if (complexity.includes("1") || complexity.includes("log")) return "text-green-500";
+    if (complexity.includes("1") || complexity.includes("log")) return "text-primary";
     if (complexity.includes("n)") && !complexity.includes("²")) return "text-yellow-500";
     return "text-red-500";
   };
@@ -217,11 +217,11 @@ const CodeComparisonTool = () => {
             </Card>
 
             {/* Right Solution */}
-            <Card className="border-2 border-green-500/30">
+            <Card className="border-2 border-primary/30">
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
-                    <Code className="h-5 w-5 text-green-500" />
+                    <Code className="h-5 w-5 text-primary" />
                     Solution B
                   </CardTitle>
                   <Select value={selectedRight} onValueChange={setSelectedRight}>
@@ -354,13 +354,13 @@ const SolutionDetails = ({
       {/* Pros */}
       <div>
         <h4 className="text-sm font-medium text-muted-foreground mb-2 flex items-center gap-2">
-          <CheckCircle className="h-4 w-4 text-green-500" />
+          <CheckCircle className="h-4 w-4 text-primary" />
           Pros
         </h4>
         <ul className="space-y-1">
           {solution.pros.map((pro, i) => (
             <li key={i} className="text-sm flex items-start gap-2">
-              <Zap className="h-3 w-3 mt-1.5 text-green-500 shrink-0" />
+              <Zap className="h-3 w-3 mt-1.5 text-primary shrink-0" />
               {pro}
             </li>
           ))}

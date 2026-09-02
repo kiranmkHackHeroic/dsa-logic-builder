@@ -170,10 +170,10 @@ const ProgressHeatmap = () => {
   const getActivityColor = (level: number): string => {
     const colors = [
       "bg-muted hover:bg-muted",
-      "bg-green-900/50 hover:bg-green-900/70",
-      "bg-green-700/60 hover:bg-green-700/80",
-      "bg-green-500/70 hover:bg-green-500/90",
-      "bg-green-400 hover:bg-green-300",
+      "bg-indigo-950/60 hover:bg-indigo-900/70",
+      "bg-indigo-800/70 hover:bg-indigo-700/80",
+      "bg-indigo-600/80 hover:bg-indigo-500/90",
+      "bg-indigo-500 hover:bg-indigo-400",
     ];
     return colors[level];
   };
@@ -260,8 +260,8 @@ const ProgressHeatmap = () => {
             <Card>
               <CardContent className="py-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
-                    <Calendar className="h-5 w-5 text-green-500" />
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Calendar className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold">{stats.activeDays}</p>

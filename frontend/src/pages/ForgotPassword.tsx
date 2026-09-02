@@ -77,7 +77,7 @@ const ForgotPassword = () => {
 
           <Card variant="elevated">
             <CardContent className="pt-6 text-center">
-              <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+              <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4" />
               <h2 className="text-xl font-bold mb-2">Check your email</h2>
               <p className="text-muted-foreground mb-6">
                 We've sent a password reset link to <strong>{email}</strong>

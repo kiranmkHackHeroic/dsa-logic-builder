@@ -43,7 +43,7 @@ export const studyPlans: StudyPlan[] = [
     ],
     tags: ["interview", "comprehensive", "extended"],
     icon: "💪",
-    color: "from-green-500 to-teal-500",
+    color: "from-blue-600 to-indigo-600",
   },
   {
     id: "beginner-dsa",
@@ -55,7 +55,7 @@ export const studyPlans: StudyPlan[] = [
     problemIds: [1, 5, 6, 13, 19, 26, 44, 45, 53, 54],
     tags: ["beginner", "fundamentals", "easy"],
     icon: "🌱",
-    color: "from-emerald-400 to-green-500",
+    color: "from-sky-500 to-indigo-500",
   },
   {
     id: "two-pointers-master",
@@ -111,7 +111,7 @@ export const studyPlans: StudyPlan[] = [
     problemIds: [44, 45, 46],
     tags: ["pattern", "trees", "essential"],
     icon: "🌳",
-    color: "from-lime-500 to-green-500",
+    color: "from-amber-500 to-orange-500",
   },
   {
     id: "weekly-challenge",

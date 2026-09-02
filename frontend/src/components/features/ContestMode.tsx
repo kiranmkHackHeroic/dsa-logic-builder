@@ -132,7 +132,7 @@ const ContestMode = () => {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "easy":
-        return "text-green-500 bg-green-500/10";
+        return "text-sky-500 bg-sky-500/10";
       case "medium":
         return "text-yellow-500 bg-yellow-500/10";
       case "hard":
@@ -143,7 +143,7 @@ const ContestMode = () => {
   };
 
   const getTimeColor = () => {
-    if (timeRemaining > 30 * 60) return "text-green-500";
+    if (timeRemaining > 30 * 60) return "text-primary";
     if (timeRemaining > 10 * 60) return "text-yellow-500";
     return "text-red-500";
   };
@@ -262,7 +262,7 @@ const ContestMode = () => {
                     key={problem.id}
                     className={`cursor-pointer transition-all ${
                       problem.solved
-                        ? "border-green-500/50 bg-green-500/5"
+                        ? "border-primary/50 bg-primary/5"
                         : "hover:border-primary/50"
                     }`}
                     onClick={() => !problem.solved && setSelectedProblem(problem)}
@@ -273,7 +273,7 @@ const ContestMode = () => {
                           <div
                             className={`w-10 h-10 rounded-full flex items-center justify-center ${
                               problem.solved
-                                ? "bg-green-500/20 text-green-500"
+                                ? "bg-primary/20 text-primary"
                                 : "bg-muted text-muted-foreground"
                             }`}
                           >

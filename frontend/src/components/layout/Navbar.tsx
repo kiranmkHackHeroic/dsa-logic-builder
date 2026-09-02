@@ -1,25 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
-  Brain, 
-  Menu, 
-  X, 
-  LogOut, 
-  User, 
-  Settings, 
-  BookOpen, 
-  Trophy, 
-  Code, 
-  Bookmark, 
-  Building2, 
-  ChevronDown, 
-  MessageSquare, 
-  GitCompare, 
-  Timer, 
-  StickyNote, 
-  Calendar,
-  Sparkles
-} from "lucide-react";
+import { Brain, Menu, X, LogOut, User, Settings, BookOpen, Trophy, Code, Bookmark, Building2, ChevronDown, Crown, MessageSquare, GitCompare, Timer, StickyNote, Calendar } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
@@ -29,6 +10,10 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuPortal,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 
@@ -36,7 +21,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { profile } = useProfile();
-  const location = useLocation();
 
   const navLinks = [
     { name: "Problems", href: "/problems" },
@@ -62,86 +46,57 @@ const Navbar = () => {
     { name: "Progress Heatmap", href: "/heatmap", icon: Calendar },
   ];
 
-  // W3Schools-style secondary topic strip
-  const topicRibbon = [
-    { label: "DSA HOME", href: "/" },
-    { label: "ALL PROBLEMS", href: "/problems" },
-    { label: "TWO POINTERS", href: "/patterns/two-pointers" },
-    { label: "SLIDING WINDOW", href: "/patterns/sliding-window" },
-    { label: "BINARY SEARCH", href: "/patterns/binary-search" },
-    { label: "LINKED LISTS", href: "/patterns/fast-slow-pointers" },
-    { label: "STACKS & QUEUES", href: "/patterns/monotonic-stack" },
-    { label: "TREES & GRAPHS", href: "/patterns/tree-bfs" },
-    { label: "DYNAMIC PROGRAMMING", href: "/patterns/01-knapsack" },
-    { label: "AI DRY RUN", href: "/problems/1" },
-    { label: "INTERVIEW", href: "/interview" },
-  ];
-
   const handleSignOut = async () => {
     await signOut();
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border shadow-xs">
-      {/* Primary Top Bar */}
+    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
       <div className="container mx-auto px-4">
-        <div className="flex h-14 items-center justify-between">
-          {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-md bg-[#04AA6D] flex items-center justify-center text-white shadow-xs group-hover:bg-[#038a58] transition-colors">
-              <Brain className="h-5 w-5" />
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="relative">
+              <Brain className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
+              <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold text-foreground tracking-tight flex items-center gap-1.5">
-                DSA Logic Builder
-                <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 bg-[#04AA6D]/15 text-[#04AA6D] rounded">Tutorial</span>
-              </span>
-            </div>
+            <span className="text-xl font-bold gradient-text">DSA Logic Builder</span>
           </Link>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const isActive = location.pathname === link.href;
-              return (
-                <Link key={link.name} to={link.href}>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className={`font-medium text-sm transition-colors ${
-                      isActive ? "text-[#04AA6D] bg-[#04AA6D]/10 font-semibold" : "text-foreground/80 hover:text-foreground hover:bg-secondary"
-                    }`}
-                  >
-                    {link.name}
-                  </Button>
-                </Link>
-              );
-            })}
+            {navLinks.map((link) => (
+              <Link key={link.name} to={link.href}>
+                <Button variant="ghost" size="sm">
+                  {link.name}
+                </Button>
+              </Link>
+            ))}
             
             {/* Features Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1 text-foreground/80 hover:text-foreground">
+                <Button variant="ghost" size="sm" className="gap-1">
                   Features
-                  <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+                  <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56 shadow-md border-border">
-                <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Learning Modules</DropdownMenuLabel>
+              <DropdownMenuContent align="start" className="w-52">
+                <DropdownMenuLabel className="text-xs text-muted-foreground">Learning Tools</DropdownMenuLabel>
                 {featureLinks.map((link) => (
                   <DropdownMenuItem key={link.name} asChild>
-                    <Link to={link.href} className="cursor-pointer font-medium">
-                      <link.icon className="h-4 w-4 mr-2 text-[#04AA6D]" />
+                    <Link to={link.href} className="cursor-pointer">
+                      <link.icon className="h-4 w-4 mr-2" />
                       {link.name}
                     </Link>
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />
-                <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Practice & Community</DropdownMenuLabel>
+                <DropdownMenuLabel className="text-xs text-muted-foreground">Practice & Community</DropdownMenuLabel>
                 {newFeatureLinks.map((link) => (
                   <DropdownMenuItem key={link.name} asChild>
-                    <Link to={link.href} className="cursor-pointer font-medium">
-                      <link.icon className="h-4 w-4 mr-2 text-primary" />
+                    <Link to={link.href} className="cursor-pointer">
+                      <link.icon className="h-4 w-4 mr-2" />
                       {link.name}
                     </Link>
                   </DropdownMenuItem>
@@ -150,41 +105,41 @@ const Navbar = () => {
             </DropdownMenu>
           </div>
 
-          {/* Right Action CTA Buttons */}
+          {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
             {user ? (
               <>
                 <Link to="/dashboard">
-                  <Button variant="outline" size="sm" className="font-semibold text-xs border-border hover:border-[#04AA6D]">
+                  <Button variant="outline" size="sm">
                     Dashboard
                   </Button>
                 </Link>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="gap-2 px-2">
-                      <div className="w-7 h-7 rounded-full bg-[#04AA6D] text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                    <Button variant="ghost" size="sm" className="gap-2">
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground text-sm font-bold">
                         {profile?.display_name?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || "U"}
                       </div>
-                      <span className="max-w-28 truncate text-xs font-semibold">
+                      <span className="max-w-24 truncate">
                         {profile?.display_name || user.email?.split("@")[0]}
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48 shadow-md border-border">
+                  <DropdownMenuContent align="end" className="w-48">
                     <DropdownMenuItem asChild>
-                      <Link to="/dashboard" className="cursor-pointer font-medium">
-                        <User className="h-4 w-4 mr-2 text-[#04AA6D]" />
+                      <Link to="/dashboard" className="cursor-pointer">
+                        <User className="h-4 w-4 mr-2" />
                         Dashboard
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/settings" className="cursor-pointer font-medium">
+                      <Link to="/settings" className="cursor-pointer">
                         <Settings className="h-4 w-4 mr-2" />
                         Settings
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-destructive font-medium">
+                    <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-destructive">
                       <LogOut className="h-4 w-4 mr-2" />
                       Sign Out
                     </DropdownMenuItem>
@@ -194,49 +149,48 @@ const Navbar = () => {
             ) : (
               <>
                 <Link to="/auth">
-                  <Button variant="outline" size="sm" className="font-semibold text-xs border-border hover:border-[#04AA6D]">
+                  <Button variant="outline" size="sm">
                     Log In
                   </Button>
                 </Link>
                 <Link to="/auth">
-                  <Button size="sm" className="bg-[#04AA6D] hover:bg-[#038a58] text-white font-bold text-xs px-4 rounded-md shadow-xs transition-colors">
-                    Sign In
+                  <Button variant="hero" size="sm">
+                    Get Started
                   </Button>
                 </Link>
               </>
             )}
           </div>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-md hover:bg-secondary transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-secondary transition-colors"
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
           >
-            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-3 border-t border-border animate-fade-in bg-background">
-            <div className="flex flex-col gap-1">
+          <div className="md:hidden py-4 border-t border-border animate-fade-in">
+            <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <Link key={link.name} to={link.href} onClick={() => setIsOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-sm font-medium">
+                  <Button variant="ghost" className="w-full justify-start">
                     {link.name}
                   </Button>
                 </Link>
               ))}
-              <div className="flex flex-col gap-2 pt-3 border-t border-border mt-2">
+              <div className="flex flex-col gap-2 pt-4 border-t border-border mt-2">
                 {user ? (
                   <>
                     <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                      <Button variant="outline" className="w-full justify-start text-sm">
+                      <Button variant="outline" className="w-full">
                         Dashboard
                       </Button>
                     </Link>
-                    <Button variant="destructive" onClick={handleSignOut} className="w-full text-sm">
+                    <Button variant="destructive" onClick={handleSignOut} className="w-full">
                       <LogOut className="h-4 w-4 mr-2" />
                       Sign Out
                     </Button>
@@ -244,13 +198,13 @@ const Navbar = () => {
                 ) : (
                   <>
                     <Link to="/auth" onClick={() => setIsOpen(false)}>
-                      <Button variant="outline" className="w-full text-sm font-medium">
+                      <Button variant="outline" className="w-full">
                         Log In
                       </Button>
                     </Link>
                     <Link to="/auth" onClick={() => setIsOpen(false)}>
-                      <Button className="w-full bg-[#04AA6D] hover:bg-[#038a58] text-white font-bold text-sm">
-                        Sign In
+                      <Button variant="hero" className="w-full">
+                        Get Started
                       </Button>
                     </Link>
                   </>
@@ -260,29 +214,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-
-      {/* W3Schools Signature Topic Bar (#282A35 Dark Charcoal) */}
-      <div className="bg-[#282A35] text-white border-t border-black/20 shadow-inner overflow-x-auto no-scrollbar">
-        <div className="container mx-auto px-4 flex items-center gap-1 py-1.5 text-[11px] font-semibold tracking-wider whitespace-nowrap">
-          {topicRibbon.map((item) => {
-            const isSelected = location.pathname === item.href;
-            return (
-              <Link
-                key={item.label}
-                to={item.href}
-                className={`px-3 py-1 rounded transition-colors uppercase ${
-                  isSelected
-                    ? "bg-[#04AA6D] text-white font-bold"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-    </header>
+    </nav>
   );
 };
 

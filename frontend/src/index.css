@@ -6,39 +6,40 @@
 
 @layer base {
   :root {
-    --background: 210 40% 99%;
-    --foreground: 222 47% 11%;
+    /* Pure White Theme */
+    --background: 0 0% 100%; /* #ffffff */
+    --foreground: 240 10% 3.9%; /* #09090b - Deep Black */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 0 0% 100%; /* #ffffff */
+    --card-foreground: 240 10% 3.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 240 10% 3.9%;
 
-    /* Interactive Educational Royal Indigo - Deep clarity, logic & focus */
+    /* Electric Royal Indigo - Logic, clarity & focus */
     --primary: 234 89% 63%; /* #4F46E5 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 214 32% 95%; /* #f1f5f9 */
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 240 4.8% 95.9%; /* #f4f4f5 */
+    --secondary-foreground: 240 5.9% 10%;
 
-    --muted: 214 32% 95%;
-    --muted-foreground: 215 16% 47%; /* #64748b */
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%; /* #71717a */
 
-    /* Solar Amber / Warm Energy - Gamification, Streaks, Interactive Feedback (No green) */
+    /* Solar Amber / Warm Energy (Zero green) */
     --accent: 38 92% 50%; /* #f59e0b */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%; /* #e2e8f0 */
-    --input: 214 32% 91%;
+    --border: 240 5.9% 90%; /* #e4e4e7 */
+    --input: 240 5.9% 90%;
     --ring: 234 89% 63%;
 
     --radius: 0.75rem;
 
-    /* Interactive Cyan/Sky for verified badges instead of plain green */
+    /* Interactive Sky Blue for verification (Zero green) */
     --success: 199 89% 48%; /* #0ea5e9 */
     --success-foreground: 0 0% 100%;
 
@@ -47,57 +48,60 @@
 
     --gradient-primary: linear-gradient(135deg, hsl(234, 89%, 63%) 0%, hsl(262, 83%, 58%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(38, 92% 50%) 0%, hsl(24, 95%, 53%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(210, 40%, 99%) 0%, hsl(214, 32%, 96%) 100%);
-    --gradient-card: linear-gradient(145deg, #ffffff 0%, hsl(214, 32%, 98%) 100%);
+    --gradient-subtle: linear-gradient(180deg, #ffffff 0%, hsl(240, 4.8%, 97%) 100%);
+    --gradient-card: linear-gradient(145deg, #ffffff 0%, hsl(240, 4.8%, 98.5%) 100%);
 
-    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
-    --shadow-glow: 0 0 35px rgba(79, 70, 229, 0.22);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+    --shadow-glow: 0 0 35px rgba(79, 70, 229, 0.2);
 
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --sidebar-background: 214 32% 98%;
-    --sidebar-foreground: 222 47% 11%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 10% 3.9%;
     --sidebar-primary: 234 89% 63%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 214 32% 93%;
-    --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 214 32% 91%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
     --sidebar-ring: 234 89% 63%;
   }
 
   .dark {
-    --background: 224 45% 7%; /* #0a0e17 */
-    --foreground: 210 40% 98%;
+    /* Pure Black Theme (Obsidian) */
+    --background: 240 10% 3.9%; /* #09090b - True Black */
+    --foreground: 0 0% 98%; /* #fafafa - Pure White */
 
-    --card: 223 38% 10%; /* #101623 */
-    --card-foreground: 210 40% 98%;
+    --card: 240 10% 6.5%; /* #111114 - Deep Black Surface */
+    --card-foreground: 0 0% 98%;
 
-    --popover: 223 38% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 240 10% 6.5%;
+    --popover-foreground: 0 0% 98%;
 
+    /* Glowing Royal Indigo */
     --primary: 234 89% 67%; /* #6366f1 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 223 33% 15%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 3.7% 13%; /* #1e1e23 */
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 223 33% 15%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 240 3.7% 13%;
+    --muted-foreground: 240 5% 64.9%; /* #a1a1aa */
 
-    --accent: 38 92% 54%;
+    /* Solar Amber */
+    --accent: 38 92% 54%; /* #fbbf24 */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62% 50%;
+    --destructive: 0 62.8% 50.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 223 30% 18%;
-    --input: 223 30% 18%;
+    --border: 240 3.7% 15.9%; /* #27272a - Clean hairline border */
+    --input: 240 3.7% 15.9%;
     --ring: 234 89% 67%;
 
-    --success: 199 89% 52%;
+    --success: 199 89% 52%; /* #38bdf8 */
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 54%;
@@ -105,21 +109,21 @@
 
     --gradient-primary: linear-gradient(135deg, hsl(234, 89%, 67%) 0%, hsl(262, 83%, 63%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(38, 92% 54%) 0%, hsl(24, 95%, 58%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(224, 45%, 7%) 0%, hsl(223, 38%, 10%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(223, 38%, 12%) 0%, hsl(223, 38%, 10%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(240, 10%, 3.9%) 0%, hsl(240, 10%, 6.5%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(240, 10%, 7.5%) 0%, hsl(240, 10%, 6%) 100%);
 
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.25);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.28);
 
-    --sidebar-background: 224 45% 8%;
-    --sidebar-foreground: 210 40% 98%;
+    --sidebar-background: 240 10% 4.5%;
+    --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 234 89% 67%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 223 33% 15%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 223 30% 18%;
+    --sidebar-accent: 240 3.7% 13%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 234 89% 67%;
   }
 }

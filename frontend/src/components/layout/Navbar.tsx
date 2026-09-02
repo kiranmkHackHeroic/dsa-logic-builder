@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Brain, Menu, X, LogOut, User, Settings, BookOpen, Trophy, Code, Bookmark, Building2, ChevronDown, Crown, MessageSquare, GitCompare, Timer, StickyNote, Calendar } from "lucide-react";
+import { Brain, Menu, X, LogOut, User, Settings, BookOpen, Trophy, Code, Bookmark, Building2, ChevronDown, Crown, MessageSquare, GitCompare, Timer, StickyNote, Calendar, Github } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
@@ -106,8 +106,18 @@ const Navbar = () => {
             </DropdownMenu>
           </div>
 
-          {/* CTA Buttons & Theme Toggle */}
-          <div className="hidden md:flex items-center gap-2.5">
+          {/* CTA Buttons, GitHub Link & Theme Toggle */}
+          <div className="hidden md:flex items-center gap-2">
+            <a
+              href="https://github.com/kiranmkHackHeroic/dsa-logic-builder"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg border border-border/70 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center"
+              aria-label="GitHub Repository"
+              title="GitHub Repository"
+            >
+              <Github className="h-4 w-4" />
+            </a>
             <ThemeToggle />
             {user ? (
               <>
@@ -165,7 +175,17 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Right Controls */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-1.5 md:hidden">
+            <a
+              href="https://github.com/kiranmkHackHeroic/dsa-logic-builder"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg border border-border/70 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center"
+              aria-label="GitHub Repository"
+              title="GitHub Repository"
+            >
+              <Github className="h-4 w-4" />
+            </a>
             <ThemeToggle />
             <button
               className="p-2 rounded-lg hover:bg-secondary transition-colors"
@@ -215,6 +235,16 @@ const Navbar = () => {
                     </Link>
                   </>
                 )}
+                <a
+                  href="https://github.com/kiranmkHackHeroic/dsa-logic-builder"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg border border-border/70 hover:bg-secondary text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mt-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Github className="h-4 w-4" />
+                  GitHub Repository
+                </a>
               </div>
             </div>
           </div>

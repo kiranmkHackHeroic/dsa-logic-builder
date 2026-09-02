@@ -17,14 +17,16 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="border-t border-border bg-card/50">
+    <footer className="border-t border-[#e2e8f0] dark:border-[#2e3846] bg-[#f8fafc] dark:bg-[#151b23]">
       <div className="container mx-auto px-4 py-10 sm:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="col-span-1 sm:col-span-2 text-center sm:text-left">
-            <Link to="/" className="flex items-center justify-center sm:justify-start gap-2 mb-4">
-              <Brain className="h-7 w-7 text-primary" />
-              <span className="text-lg font-bold gradient-text">DSA Logic Builder</span>
+            <Link to="/" className="flex items-center justify-center sm:justify-start gap-2.5 mb-3">
+              <div className="w-7 h-7 rounded-md bg-[#04AA6D] flex items-center justify-center text-white">
+                <Brain className="h-4.5 w-4.5" />
+              </div>
+              <span className="text-lg font-bold text-foreground">DSA Logic Builder</span>
             </Link>
             <p className="text-muted-foreground text-sm max-w-md mx-auto sm:mx-0">
               Learn how to think, not just code. Master DSA through logic-first problem solving

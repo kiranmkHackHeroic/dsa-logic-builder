@@ -9,6 +9,8 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-4.19-000000?logo=express&logoColor=white)](https://expressjs.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel&logoColor=white)](https://vercel.com/)
+[![Render](https://img.shields.io/badge/Backend%20on-Render-46E3B7?logo=render&logoColor=white)](https://render.com/)
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini-3.6%20Flash-8E75C2?logo=google&logoColor=white)](https://aistudio.google.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
@@ -25,7 +27,7 @@
 
 <br/>
 
-[🌟 7-Step Framework](#-feature-spotlight-1-the-7-step-dsa-mastery-framework) • [🤖 AI Dry Run](#-feature-spotlight-2-ai-powered-code-dry-run-engine) • [Quickstart](#-getting-started) • [API Reference](#-api-endpoints) • [Project Structure](#-project-structure)
+[🌟 7-Step Framework](#-feature-spotlight-1-the-7-step-dsa-mastery-framework) • [🤖 AI Dry Run](#-feature-spotlight-2-ai-powered-code-dry-run-engine) • [🚀 Cloud Deployment](#-production-deployment-guide) • [💻 Local Setup](#-local-development-setup) • [📡 API Reference](#-api-endpoints)
 
 </div>
 
@@ -36,19 +38,21 @@
 Most competitive programmers and interview candidates struggle not because they lack programming syntax, but because they **jump straight to code without understanding the underlying thought process**.
 
 When faced with an unseen problem in high-stakes technical interviews, rushing into syntax causes:
-- ❌ **Syntax panic** and blanking out.
-- ❌ **Off-by-one errors** and unhandled edge cases.
+- ❌ **Syntax panic** and blanking out under interview pressure.
+- ❌ **Off-by-one errors** and unhandled boundary edge cases.
 - ❌ **Suboptimal brute-force solutions** that trigger Time Limit Exceeded (TLE).
 
-**DSA Logic Builder** solves this through two signature pillars:
-1. **The 7-Step Problem-Solving Ladder** — A disciplined, sequential thinking framework.
-2. **AI-Powered Code Dry Run (Google Gemini)** — Real-time line-by-line simulation of your code showing live variable snapshots, bug detection, and complexity analysis.
+**DSA Logic Builder** systematically dismantles these pain points through:
+1. **The 7-Step Problem-Solving Ladder** — A disciplined, sequential thinking framework that builds rock-solid algorithmic intuition before writing syntax.
+2. **AI-Powered Code Dry Run (Google Gemini)** — Real-time line-by-line simulation of your code showing live variable mutations, automatic bug detection, and complexity analysis.
+3. **Interactive Visualizer** — Dynamic step-by-step array and pointer animation engine.
+4. **Cloud-Synced Progress** — Multi-device state persistence, daily streak tracking, activity heatmaps, and personal problem notes backed by MySQL.
 
 ---
 
 ## 🎯 Feature Spotlight 1: The 7-Step DSA Mastery Framework
 
-Every single problem is broken down into structured, bite-sized cognitive stages. You master the logic before writing a single line of code.
+Every single problem is broken down into structured, bite-sized cognitive stages:
 
 <p align="center">
   <img src="./docs/screenshots/problem_flow_7step.png" alt="7-Step Problem Flow View" width="880" style="border-radius: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.1);" />
@@ -56,67 +60,33 @@ Every single problem is broken down into structured, bite-sized cognitive stages
 
 | Step | Stage Name | What Happens | Why It Matters |
 | :---: | :--- | :--- | :--- |
-| **1** | **Understand the Problem** | Extract input/output types, numeric constraints, and explain the problem in your own words. | Prevents solving the wrong problem or misunderstanding constraints. |
-| **2** | **Human Thinking** | Work through concrete small examples manually using pen-and-paper logic. | Uncovers the natural intuition humans use to solve the pattern. |
-| **3** | **Brute Force** | Formulate the naive solution, determine theoretical time/space bounds ($O(n^2)$ / $O(2^n)$), and identify bottlenecks. | Gives a guaranteed baseline solution and identifies redundant computations. |
-| **4** | **Optimization** | Discover algorithmic patterns (Two Pointers, Hash Map, Sliding Window, Monotonic Stack, DP). | Teaches pattern recognition across 15+ core algorithmic archetypes. |
-| **5** | **Final Approach** | Write structured pseudocode, establish loop invariants, and confirm time/space complexity. | Creates an airtight algorithmic blueprint before touching syntax. |
-| **6** | **Coding Step & AI Dry Run** | Implement in Python 3, JavaScript, Java, or C++ with test cases, code persistence, and live AI dry run. | Writes clean, verified code with instant bug detection. |
-| **7** | **Visualization** | Watch animated data structure simulations showing pointer movements, arrays, and trees. | Solidifies spatial memory of how data structures behave dynamically. |
+| **1** | **Understand the Problem** | Extract input/output data types, boundary constraints, and restate the problem in your own words. | Prevents solving the wrong problem or missing crucial numeric edge cases. |
+| **2** | **Human Thinking** | Walk through small examples manually using pen-and-paper logic. | Uncovers the natural human intuition behind the pattern. |
+| **3** | **Brute Force** | Formulate the naive solution, determine theoretical bounds ($O(n^2)$ / $O(2^n)$), and identify bottlenecks. | Provides a guaranteed baseline and highlights redundant operations. |
+| **4** | **Optimization** | Discover optimal algorithmic patterns (Two Pointers, Sliding Window, Monotonic Stack, DP). | Builds pattern recognition across 15+ core algorithmic archetypes. |
+| **5** | **Final Approach** | Write structured pseudocode, establish loop invariants, and confirm final time/space complexity. | Creates an airtight algorithmic blueprint before touching code syntax. |
+| **6** | **Coding & AI Dry Run** | Implement in Python 3, JavaScript, Java, or C++ with live test cases and Gemini AI dry-run execution. | Produces clean, verified code with immediate bug and off-by-one detection. |
+| **7** | **Visualization** | Watch animated data structure simulations showing pointer movements, arrays, and trees. | Solidifies spatial memory of dynamic algorithmic execution. |
 
 ---
 
 ## 🤖 Feature Spotlight 2: AI-Powered Code Dry Run Engine
 
-Writing code is only half the battle — understanding *how it executes* is where mastery happens. The **AI Dry Run** feature simulates your code in real-time using **Google Gemini AI (`gemini-3.6-flash`)**.
+Writing code is only half the battle — understanding *how it executes line-by-line* is where mastery happens. The **AI Dry Run** feature simulates your code in real-time using **Google Gemini AI (`gemini-3.6-flash`)**.
 
 <p align="center">
   <img src="./docs/screenshots/ai_dryrun.png" alt="AI Code Dry Run in Action" width="880" style="border-radius: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.1);" />
 </p>
 
-### Key Capabilities of the AI Dry Run Visualizer:
-- **📊 Live Variables State Inspector**: An interactive snapshot table showing the exact values of all variables, pointers, counters, and hash maps at every single loop iteration.
-- **⏯️ Interactive Step Player**: Step through code at your own pace with **Previous Step**, **Next Step**, **Auto-Play**, and **Reset** controls.
+### Key Capabilities:
+- **📊 Live State Snapshot Table**: Real-time inspection of all variables, pointers (`left`, `right`, `mid`), counters, and hash maps at each step.
+- **⏯️ Interactive Step Player**: Step through execution with **Previous Step**, **Next Step**, **Auto-Play**, and **Reset** controls.
 - **🚨 Automated Bug & Edge-Case Detection**:
-  - Automatically identifies unfulfilled stubs, missing returns, off-by-one errors, and incorrect indexing.
-  - Displays a prominent **`Bug Detected`** badge with specific, actionable suggestions on how to fix the logic.
+  - Automatically identifies unfulfilled stubs, missing returns, infinite loops, and array out-of-bounds indexing.
+  - Displays a prominent **`Bug Detected`** badge with specific, actionable remediation steps.
 - **⚡ Complexity Verification**: Real-time evaluation of both **Time Complexity** ($O$) and **Space Complexity** ($O$) based on your code's loops and allocations.
-- **💡 Concrete Explanations**: Plain-English rationale detailing what each line accomplishes and why state changes occurred.
-- **🚀 One-Click LeetCode Export**: Copies your verified code to your clipboard and opens the exact problem page on LeetCode in a new tab.
-
----
-
-## 📖 Complete Learning Workflow
-
-```
-┌─────────────────────────┐
-│ 1. Select Problem Track │
-│ Company (Google/Meta)   │
-│ Or Algorithmic Pattern  │
-└───────────┬─────────────┘
-            ▼
-┌─────────────────────────┐
-│ 2. Ascend 7-Step Ladder │
-│ Understand ➔ Intuition  │
-│ ➔ Brute Force ➔ Optimize│
-└───────────┬─────────────┘
-            ▼
-┌─────────────────────────┐
-│ 3. Multi-Language Code  │
-│ Python, JS, Java, C++   │
-└───────────┬─────────────┘
-            ▼
-┌─────────────────────────┐     ┌────────────────────────┐
-│ 4. Run AI Dry Run       │ ──▶ │ 5. Visualizer & Save   │
-│ Live Variables & Gemini │     │ Progress saved in MySQL│
-└─────────────────────────┘     └────────────────────────┘
-```
-
-1. **Pick a Track**: Choose problems by pattern (*Two Pointers*, *Sliding Window*, *Dynamic Programming*) or by top tech companies (*Google*, *Amazon*, *Meta*, *Microsoft*, *Apple*, *Uber*).
-2. **Solve Step-by-Step**: Walk through Steps 1 to 5 to plan your strategy.
-3. **Code & Trace**: Write your code in Step 6 and click **`✨ AI Dry Run`** to verify variable mutations and check for bugs.
-4. **Visualize**: Watch step 7 to see animated pointers and array operations.
-5. **Track Consistency**: Solutions, completion states, and streak dates are automatically persisted to your MySQL database. Review them anytime via the **Activity Heatmap** or **Spaced Repetition Dashboard**.
+- **💡 Plain-English Explanations**: Details what each line accomplishes and why variable values changed.
+- **🚀 One-Click LeetCode Export**: Copies your verified solution to clipboard and opens the exact LeetCode problem page in a new tab.
 
 ---
 
@@ -124,117 +94,196 @@ Writing code is only half the battle — understanding *how it executes* is wher
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Frontend (Vite + React)                  │
-│   Tailwind CSS • shadcn/ui • Radix UI • Lucide • TypeScript  │
+│                 Frontend SPA (React 18 + Vite)              │
+│       Hosted on Vercel Global Edge CDN (Auto SSL / SPA)     │
+│   Tailwind CSS • shadcn/ui • Radix UI • Lucide • TypeScript │
 └──────────────────────────────┬──────────────────────────────┘
-                               │ REST API (JSON / JWT)
+                               │ HTTPS REST API (JSON / JWT)
 ┌──────────────────────────────▼──────────────────────────────┐
-│                  Backend (Node.js + Express)                │
+│              Backend REST API (Node.js + Express)           │
+│              Hosted on Render (0.0.0.0 Port 10000)          │
 │    Helmet Security • Express Rate Limit • JWT Auth • CORS   │
 └──────────────┬──────────────────────────────┬───────────────┘
                │                              │
                ▼                              ▼
 ┌──────────────────────────────┐ ┌────────────────────────────┐
-│      MySQL Database          │ │     Google Gemini AI       │
-│  Users • Progress • Streaks  │ │  gemini-3.6-flash Engine   │
-│   Roles • Code Solutions     │ │  Live Execution Simulator  │
+│      Cloud MySQL Database    │ │     Google Gemini AI       │
+│  Hosted on Aiven / Railway   │ │  gemini-3.6-flash Engine   │
+│  Users • Progress • Streaks  │ │  Live Execution Simulator  │
+│   Roles • Code Solutions     │ │  Bug & Complexity Analysis │
 └──────────────────────────────┘ └────────────────────────────┘
 ```
 
-| Layer | Technology | Description |
+| Layer | Technology | Details |
 | :--- | :--- | :--- |
-| **Frontend** | React 18, TypeScript, Vite | Ultra-fast Single Page Application (SPA) |
-| **Styling** | Tailwind CSS, shadcn/ui | Dark/light accessible design system |
-| **Backend** | Node.js, Express.js | Secure RESTful API service |
-| **Database** | MySQL 8.0+ | Relational schema with transactional consistency |
-| **Authentication** | JSON Web Tokens (JWT), bcryptjs | Secure password hashing (12 salt rounds) |
-| **AI Engine** | Google Gemini (`gemini-3.6-flash`) | Context-aware code execution and dry run simulation |
+| **Frontend Host** | **Vercel** | Ultra-fast Global Edge CDN with automated SPA rewrites |
+| **Frontend Framework** | **React 18 + Vite + TypeScript** | Client-side Single Page Application with shadcn/ui and Tailwind |
+| **Backend Host** | **Render** | Persistent Node.js Web Service with automatic deploys from Git |
+| **Backend Framework** | **Express.js 4.x** | Secure REST API with Helmet, JWT auth, rate limiting, and CORS |
+| **Database** | **MySQL 8.0+** | Relational database (hosted on Aiven or Railway) |
+| **AI Engine** | **Google Gemini (`gemini-3.6-flash`)** | Code execution simulation, variable tracing, and complexity checks |
 
 ---
 
-## 🏁 Getting Started
+## 📂 Project Structure
+
+```
+dsa-logic-builder/
+├── frontend/                     # React 18, TypeScript, Tailwind, Vite SPA
+│   ├── src/
+│   │   ├── components/           # 7-Step logic ladder, visualizers, navigation
+│   │   ├── contexts/             # AuthContext, SubscriptionContext
+│   │   ├── data/                 # Curated problem banks & company question tracks
+│   │   ├── hooks/                # Custom hooks (streaks, progress, bookmarks, roles)
+│   │   ├── lib/                  # apiClient, auth tokens, progressStorage
+│   │   └── pages/                # ProblemSolving, Dashboard, Analytics, Auth, Admin
+│   ├── public/                   # Favicons, icons, and static assets
+│   ├── vercel.json               # Vercel SPA rewrites (/* -> /index.html) & headers
+│   ├── vite.config.ts            # Vite configuration & path aliases
+│   ├── tailwind.config.ts        # Tailwind theme tokens & design system
+│   └── package.json              # Frontend dependencies and build scripts
+│
+├── backend/                      # Node.js, Express, MySQL REST API Server
+│   ├── routes/
+│   │   ├── auth.js               # Sign up, login, user verification, password change
+│   │   ├── dryrun.js             # Gemini AI dry-run code execution endpoint
+│   │   ├── progress.js           # Problem step completion & code persistence
+│   │   ├── streaks.js            # Daily activity streak & check-in logic
+│   │   ├── profiles.js           # Display name, preferences, avatar upload
+│   │   └── roles.js              # Role-based access control (RBAC)
+│   ├── middleware/
+│   │   └── auth.js               # JWT verification & route guards
+│   ├── db.js                     # MySQL2 connection pool with auto-database routing
+│   ├── schema.sql                # Complete relational schema (tables & triggers)
+│   ├── setup-db.js               # Automated database migration & schema runner
+│   ├── package.json              # Backend dependencies (express, mysql2, helmet, etc.)
+│   └── index.js                  # Express app entry point bound to 0.0.0.0
+│
+├── docs/                         # Screenshots and architecture diagrams
+│   └── screenshots/
+├── render.yaml                   # Render Blueprint for automated cloud deployment
+├── package.json                  # Root monorepo scripts (dev, build, test, install)
+├── .gitignore                    # Git exclusions (node_modules, dist, secrets)
+├── LICENSE                       # MIT License
+└── README.md                     # Comprehensive project documentation
+```
+
+---
+
+## 🚀 Production Deployment Guide
+
+Deploying DSA Logic Builder is clean and modular: the **Frontend** runs on **Vercel**, the **Backend** runs on **Render**, and the **Database** runs on **Aiven** or **Railway**.
+
+### Part 1: Provision the MySQL Database
+
+1. **Create Free MySQL Service on [Aiven.io](https://aiven.io)** (or [Railway.app](https://railway.app)):
+   - Create a service -> Select **MySQL 8.0** -> Select **Free** plan.
+   - Wait until status is **Running**.
+   - Copy the **Service URI** (e.g. `mysql://avnadmin:password@host:port/defaultdb?ssl-mode=REQUIRED`).
+
+2. **Initialize Schema & Create Tables**:
+   Run the migration script directly from your terminal:
+   ```bash
+   DATABASE_URL="YOUR_SERVICE_URI" MYSQL_SSL=true npm run setup:db
+   ```
+   *(All tables `users`, `problem_progress`, `user_streaks`, `user_bookmarks`, `user_notes` will be created automatically inside `dsa_logic_builder`).*
+
+---
+
+### Part 2: Deploy Backend to Render
+
+1. Go to **[dashboard.render.com](https://dashboard.render.com)**.
+2. Click **"New +"** > **"Web Service"** > Connect your GitHub repository (`dsa-logic-builder`).
+3. Configure settings:
+   - **Name**: `dsa-logic-builder-api`
+   - **Root Directory**: `backend`
+   - **Runtime**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node index.js`
+   - **Instance Type**: `Free`
+4. Add **Environment Variables**:
+   | Variable | Value | Description |
+   |---|---|---|
+   | `PORT` | `10000` | Render port binding |
+   | `DATABASE_URL` | `mysql://avnadmin:pass@host:port/dsa_logic_builder` | Your cloud MySQL URI |
+   | `MYSQL_SSL` | `true` | Required for cloud databases |
+   | `JWT_SECRET` | *(A long random secret string)* | Session token signing |
+   | `GEMINI_API_KEY` | *(Your Gemini API key)* | Required for AI dry run |
+5. Click **Create Web Service**. Once live, copy your backend URL:
+   `https://dsa-logic-builder-api.onrender.com`
+   *(Verify via `https://dsa-logic-builder-api.onrender.com/api/health` -> `{"status":"ok"}`).*
+
+---
+
+### Part 3: Deploy Frontend to Vercel
+
+1. Go to **[vercel.com/new](https://vercel.com/new)**.
+2. Import your GitHub repository (`dsa-logic-builder`).
+3. Configure settings:
+   - **Root Directory**: Click **Edit** -> select **`frontend`** -> Click **Continue**.
+   - **Framework Preset**: `Vite` *(auto-detected)*.
+   - **Build and Output Settings**: Leave all default toggles **OFF**.
+4. Add **Environment Variable**:
+   | Key | Value |
+   |---|---|
+   | `VITE_API_URL` | `https://dsa-logic-builder-api.onrender.com` *(from Part 2)* |
+5. Click **Deploy**. Vercel will build and assign you your live production URL (e.g. `https://dsa-logic-builder.vercel.app`)!
+
+---
+
+## 💻 Local Development Setup
+
+Follow these steps to run the entire stack on your local machine:
 
 ### Prerequisites
 - **Node.js**: v18.0.0 or higher
 - **npm**: v9.0.0 or higher
-- **MySQL**: 8.0+ (local instance or cloud database like Railway/Aiven)
-
----
+- **MySQL**: 8.0+ installed locally or cloud connection
 
 ### 1. Clone the Repository
-
 ```bash
-git clone https://github.com/YOUR_USERNAME/dsa-logic-builder.git
+git clone https://github.com/kiranmkHackHeroic/dsa-logic-builder.git
 cd dsa-logic-builder
 ```
 
-### 2. Install Dependencies
-
+### 2. Install All Dependencies
 ```bash
-# Install root, frontend, and backend dependencies with a single command:
+# Installs root, frontend, and backend packages in one step:
 npm run install:all
-
-# Or install manually:
-npm install
-npm install --prefix frontend
-npm install --prefix backend
 ```
 
----
+### 3. Configure Local Environment Variables
 
-### 3. Configure Environment Variables
-
-#### Backend (`backend/.env`)
-Create `backend/.env` (or copy from `backend/.env.example`):
-
+**Backend (`backend/.env`)**:
 ```env
-# MySQL Database Configuration
+PORT=3001
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
 MYSQL_USER=root
-MYSQL_PASSWORD=your_mysql_password
+MYSQL_PASSWORD=your_password
 MYSQL_DATABASE=dsa_logic_builder
-
-# Authentication Secret (Change for production)
-JWT_SECRET=your-random-secret-key-change-in-production
-
-# Server Port & CORS
-PORT=3001
+JWT_SECRET=development-jwt-secret-key-12345
 CORS_ORIGIN=http://localhost:8080
-
-# Google Gemini AI (for live AI dry runs)
-# Get a free API key at: https://aistudio.google.com/app/apikey
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-#### Frontend (`frontend/.env.local` - Optional)
+**Frontend (`frontend/.env.local`)**:
 ```env
 VITE_API_URL=http://localhost:3001
 ```
 
----
-
-### 4. Initialize the MySQL Database
-
-Run the automated setup script to create database tables:
-
+### 4. Initialize the Local Database
 ```bash
 npm run setup:db
-# or: node backend/setup-db.js
 ```
 
----
-
-### 5. Launch the Application
-
-Run both frontend and backend concurrently from the root:
-
+### 5. Launch the Development Servers
 ```bash
 npm run dev
 ```
 
 - **Frontend Application**: `http://localhost:8080`
-- **Express API Server**: `http://localhost:3001`
+- **Backend API**: `http://localhost:3001`
 - **API Health Check**: `http://localhost:3001/api/health`
 
 ---
@@ -244,87 +293,76 @@ npm run dev
 ### Authentication (`/api/auth`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| `POST` | `/api/auth/signup` | Register a new user | No |
-| `POST` | `/api/auth/login` | Authenticate and receive JWT | No |
-| `GET` | `/api/auth/me` | Retrieve active user profile | Yes |
-| `PUT` | `/api/auth/update-password` | Update current password | Yes |
+| `POST` | `/api/auth/signup` | Register new user account | No |
+| `POST` | `/api/auth/login` | Authenticate and obtain JWT token | No |
+| `GET` | `/api/auth/me` | Fetch currently authenticated user | Yes |
+| `PUT` | `/api/auth/update-password` | Update current user password | Yes |
 
 ### Problem Progress (`/api/progress`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| `GET` | `/api/progress` | Get all solved problem records | Yes |
-| `GET` | `/api/progress/:problemId` | Get progress for a specific problem | Yes |
-| `PUT` | `/api/progress/:problemId` | Save step completion & code solution | Yes |
+| `GET` | `/api/progress` | Retrieve all solved problems for user | Yes |
+| `GET` | `/api/progress/:problemId` | Fetch progress details for a problem | Yes |
+| `PUT` | `/api/progress/:problemId` | Save step completion and code solution | Yes |
 
 ### AI Dry Run Engine (`/api/ai`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| `POST` | `/api/ai/dryrun` | Perform AI line-by-line simulation & trace | No |
+| `POST` | `/api/ai/dryrun` | Run Gemini AI line-by-line simulation | No |
 
 ### Streaks & Profiles (`/api/streaks`, `/api/profiles`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| `GET` | `/api/streaks` | Get current user's streak count & history | Yes |
+| `GET` | `/api/streaks` | Get active streak count & streak calendar | Yes |
 | `POST` | `/api/streaks/checkin` | Record daily activity check-in | Yes |
 | `PUT` | `/api/profiles` | Update display name or preferences | Yes |
 | `POST` | `/api/profiles/avatar` | Upload profile image (multipart/form-data) | Yes |
 
 ---
 
-## 📂 Project Structure
+## 🗄️ Database Schema
 
-```
-dsa-logic-builder/
-├── frontend/                 # React 18, TypeScript, Tailwind, Vite Client
-│   ├── src/
-│   │   ├── components/       # 7-Step logic progression & UI components
-│   │   ├── contexts/         # Auth & subscription state
-│   │   ├── data/             # Problems & company question banks
-│   │   ├── hooks/            # Progress, streaks, bookmarks hooks
-│   │   └── pages/            # ProblemSolving, Dashboard, Analytics, Auth
-│   ├── public/               # Static icons and assets
-│   ├── index.html
-│   ├── vite.config.ts
-│   ├── tailwind.config.ts
-│   ├── package.json
-│   └── vercel.json           # SPA rewrites & security headers
-├── backend/                  # Node.js, Express, MySQL, Gemini AI API
-│   ├── routes/               # Auth, AI Dry Run, Progress, Streaks, Profiles
-│   ├── middleware/           # JWT verification & RBAC guards
-│   ├── db.js                 # MySQL connection pool
-│   ├── schema.sql            # Full database relational schema
-│   ├── setup-db.js           # Automated schema initializer
-│   ├── package.json
-│   └── index.js              # Express server entry point
-├── docs/                     # Documentation & UI screenshots
-│   └── screenshots/
-├── package.json              # Root monorepo scripts (dev, build, start)
-├── .gitignore
-└── README.md
-```
+The database consists of 6 primary tables created via [`backend/schema.sql`](backend/schema.sql):
+
+- **`users`**: User identities, bcrypt password hashes, display names, avatars, and timestamps.
+- **`problem_progress`**: 7-step progression records, step answers, score, code solution, and time spent.
+- **`user_streaks`**: Current streak, longest streak, last check-in date, and activity tracking.
+- **`user_bookmarks`**: Bookmarked problems for revision and spaced repetition.
+- **`user_notes`**: Markdown-enabled personal notes stored per problem.
+- **`interview_history`**: Mock interview session records, questions, and scores.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**!
+Contributions make the developer community an amazing place to learn and build. Any contributions you make are **greatly appreciated**!
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'feat: Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the Project.
+2. Create your Feature Branch:
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. Commit your Changes:
+   ```bash
+   git commit -m 'feat: Add AmazingFeature'
+   ```
+4. Push to the Branch:
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. Open a Pull Request.
 
 ---
 
 ## 📄 License
 
-Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 
 ---
 
 <div align="center">
 
-Built with ❤️ for passionate problem solvers. If you find this project helpful, don't forget to **Star ⭐ this repository**!
+Built with ❤️ for developers mastering algorithmic problem-solving.  
+**If you found this project helpful, please consider giving it a Star ⭐!**
 
 </div>

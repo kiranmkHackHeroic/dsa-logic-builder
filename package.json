@@ -9,6 +9,7 @@
     "dev": "concurrently -n \"frontend,backend\" -c \"cyan,magenta\" \"npm run dev:frontend\" \"npm run dev:backend\"",
     "build:frontend": "npm run build --prefix frontend",
     "build": "npm run build:frontend",
+    "vercel-build": "npm run build:frontend",
     "start:backend": "npm run start --prefix backend",
     "start": "npm run start:backend",
     "test": "npm run test:run --prefix frontend",

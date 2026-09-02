@@ -1,0 +1,61 @@
+services:
+  # ── Backend API (Express Web Service) ──────────────────────────
+  - type: web
+    name: dsa-logic-builder-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node index.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: MYSQL_HOST
+        sync: false
+      - key: MYSQL_PORT
+        value: 3306
+      - key: MYSQL_USER
+        sync: false
+      - key: MYSQL_PASSWORD
+        sync: false
+      - key: MYSQL_DATABASE
+        value: dsa_logic_builder
+      - key: MYSQL_SSL
+        value: "true"
+
+  # ── Frontend SPA (Static Site) ─────────────────────────────────
+  - type: web
+    name: dsa-logic-builder-frontend
+    runtime: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+    envVars:
+      - key: VITE_API_URL
+        sync: false

@@ -32,21 +32,21 @@ const renderStartupError = (message: string) => {
 
 const apiUrl = import.meta.env.VITE_API_URL;
 if (!apiUrl) {
-  renderStartupError(
-    "Missing API URL. Set VITE_API_URL in your environment (e.g. VITE_API_URL=http://localhost:3001) and restart."
+  console.warn(
+    "⚠️ [DSA Logic Builder] VITE_API_URL is not set. The frontend will run in standalone/demo mode. Set VITE_API_URL (e.g. in Vercel project settings) to connect your backend API."
   );
-} else {
-  import("./App.tsx")
-    .then(({ default: App }) => {
-      // Enable strict mode for better development warnings
-      root.render(
-        <StrictMode>
-          <App />
-        </StrictMode>
-      );
-    })
-    .catch((error: unknown) => {
-      const message = error instanceof Error ? error.message : "Unknown startup error";
-      renderStartupError(`App startup failed: ${message}`);
-    });
 }
+
+import("./App.tsx")
+  .then(({ default: App }) => {
+    // Enable strict mode for better development warnings
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+  })
+  .catch((error: unknown) => {
+    const message = error instanceof Error ? error.message : "Unknown startup error";
+    renderStartupError(`App startup failed: ${message}`);
+  });

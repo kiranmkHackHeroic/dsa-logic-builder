@@ -65,21 +65,26 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+// Trust Render/Vercel reverse proxy headers
+app.set("trust proxy", 1);
+
 // Global rate limiter — 100 requests per minute per IP
 app.use(rateLimit({
   windowMs: 60 * 1000,
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: { error: "Too many requests, please try again later." },
 }));
 
-// Auth-specific rate limiter — tighter (10 per minute)
+// Auth-specific rate limiter — tighter (20 per minute)
 const authLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 10,
+  max: 20,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: { error: "Too many authentication attempts, please try again later." },
 });
 

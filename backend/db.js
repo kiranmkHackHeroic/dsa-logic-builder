@@ -14,6 +14,10 @@ if (rawUri) {
   try {
     const parsed = new URL(rawUri);
     parsed.searchParams.delete("ssl-mode");
+    const targetDb = process.env.MYSQL_DATABASE || "dsa_logic_builder";
+    if (parsed.pathname === "/defaultdb" || parsed.pathname === "/" || !parsed.pathname) {
+      parsed.pathname = `/${targetDb}`;
+    }
     cleanUri = parsed.toString();
   } catch {
     cleanUri = rawUri;

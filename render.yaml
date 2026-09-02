@@ -32,6 +32,8 @@ services:
         value: dsa_logic_builder
       - key: MYSQL_SSL
         value: "true"
+      - key: GEMINI_API_KEY
+        sync: false
 
   # ── Frontend SPA (Static Site) ─────────────────────────────────
   - type: web

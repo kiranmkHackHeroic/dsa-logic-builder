@@ -23,8 +23,12 @@ import {
   Check,
   Circle,
   FlaskConical,
-  ListChecks
+  ListChecks,
+  Mic,
+  PenTool,
+  Bot
 } from "lucide-react";
+import VoiceInterviewPanel from "@/components/interview/VoiceInterviewPanel";
 
 type InterviewPhase = "approach" | "coding" | "review";
 type TestStatus = "idle" | "pass" | "fail";
@@ -95,6 +99,7 @@ const calculateScores = (
 const InterviewMode = () => {
   const { toast } = useToast();
 
+  const [interviewFormat, setInterviewFormat] = useState<"voice" | "written">("voice");
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | "any">("any");
   const [durationMinutes, setDurationMinutes] = useState(45);
   const [isStarted, setIsStarted] = useState(false);
@@ -132,6 +137,7 @@ const InterviewMode = () => {
       if (!rawState) return;
 
       const parsed = JSON.parse(rawState) as {
+        interviewFormat?: "voice" | "written";
         selectedDifficulty: Difficulty | "any";
         durationMinutes: number;
         isStarted: boolean;
@@ -145,6 +151,7 @@ const InterviewMode = () => {
         activeProblemId: number | null;
       };
 
+      setInterviewFormat(parsed.interviewFormat ?? "voice");
       setSelectedDifficulty(parsed.selectedDifficulty ?? "any");
       setDurationMinutes(parsed.durationMinutes ?? 45);
       setIsStarted(parsed.isStarted ?? false);
@@ -163,6 +170,7 @@ const InterviewMode = () => {
 
   useEffect(() => {
     const snapshot = {
+      interviewFormat,
       selectedDifficulty,
       durationMinutes,
       isStarted,
@@ -177,6 +185,7 @@ const InterviewMode = () => {
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
   }, [
+    interviewFormat,
     selectedDifficulty,
     durationMinutes,
     isStarted,
@@ -324,6 +333,49 @@ const InterviewMode = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
+                  {/* Interview Format Selector */}
+                  <div>
+                    <p className="text-sm font-medium mb-2">Interview Format</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setInterviewFormat("voice")}
+                        className={`p-4 rounded-xl border text-left transition-all ${
+                          interviewFormat === "voice"
+                            ? "border-primary bg-primary/10 ring-2 ring-primary shadow-xs"
+                            : "border-border hover:bg-secondary/70"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 font-bold text-sm text-foreground mb-1">
+                          <Mic className="h-4 w-4 text-primary" />
+                          AI Voice Mock Interview
+                          <Badge variant="warning" className="text-[10px] py-0 px-1.5 ml-auto">FAANG</Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          Speak your thought process aloud for the first 10 mins. Web Speech API transcribes live while AI checks your assumptions, constraints & trade-offs.
+                        </p>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setInterviewFormat("written")}
+                        className={`p-4 rounded-xl border text-left transition-all ${
+                          interviewFormat === "written"
+                            ? "border-primary bg-primary/10 ring-2 ring-primary shadow-xs"
+                            : "border-border hover:bg-secondary/70"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 font-bold text-sm text-foreground mb-1">
+                          <PenTool className="h-4 w-4 text-accent" />
+                          Written Explanation Mode
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          Type out your approach, data structure choices, and Big-O complexity analysis into the explanation editor before coding.
+                        </p>
+                      </button>
+                    </div>
+                  </div>
+
                   <div>
                     <p className="text-sm font-medium mb-2">Choose difficulty</p>
                     <div className="flex flex-wrap gap-2">
@@ -462,72 +514,110 @@ const InterviewMode = () => {
               {currentPhase === "approach" && (
                 <Card variant="step-active">
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Brain className="h-5 w-5 text-primary" />
-                      Explain Your Approach
-                    </CardTitle>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <CardTitle className="flex items-center gap-2">
+                        <Brain className="h-5 w-5 text-primary" />
+                        Phase 1: Explain Your Approach
+                      </CardTitle>
+
+                      {/* Mode Toggle Switcher */}
+                      <div className="flex items-center gap-1.5 bg-secondary/80 p-1 rounded-lg border border-border/50 self-start sm:self-center">
+                        <Button
+                          variant={interviewFormat === "voice" ? "default" : "ghost"}
+                          size="sm"
+                          className="h-7 text-xs gap-1.5 px-3 font-semibold"
+                          onClick={() => setInterviewFormat("voice")}
+                        >
+                          <Mic className="h-3.5 w-3.5 text-primary" />
+                          AI Voice Mode
+                        </Button>
+                        <Button
+                          variant={interviewFormat === "written" ? "default" : "ghost"}
+                          size="sm"
+                          className="h-7 text-xs gap-1.5 px-3 font-semibold"
+                          onClick={() => setInterviewFormat("written")}
+                        >
+                          <PenTool className="h-3.5 w-3.5 text-accent" />
+                          Written Mode
+                        </Button>
+                      </div>
+                    </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="bg-warning/10 border border-warning/20 rounded-lg p-4">
-                      <div className="flex items-start gap-3">
-                        <AlertCircle className="h-5 w-5 text-warning mt-0.5" />
-                        <div>
-                          <p className="font-medium text-warning">Code is locked!</p>
-                          <p className="text-sm text-muted-foreground">
-                            Write a detailed explanation of your approach. The code editor will unlock 
-                            when your explanation includes complexity reasoning (min {MIN_APPROACH_CHARS} characters).
-                          </p>
+                    {interviewFormat === "voice" ? (
+                      /* 🎙️ Voice Mock Interview Panel */
+                      <VoiceInterviewPanel
+                        problem={activeProblem}
+                        onTranscriptUpdate={(text) => setApproachText(text)}
+                        onUnlockCode={handleUnlockCode}
+                        canUnlock={canUnlockCode}
+                        initialTranscript={approachText}
+                      />
+                    ) : (
+                      /* ✍️ Standard Written Explanation Mode */
+                      <>
+                        <div className="bg-warning/10 border border-warning/20 rounded-lg p-4">
+                          <div className="flex items-start gap-3">
+                            <AlertCircle className="h-5 w-5 text-warning mt-0.5" />
+                            <div>
+                              <p className="font-medium text-warning">Code is locked!</p>
+                              <p className="text-sm text-muted-foreground">
+                                Write a detailed explanation of your approach. The code editor will unlock 
+                                when your explanation includes complexity reasoning (min {MIN_APPROACH_CHARS} characters).
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
 
-                    <div className="grid md:grid-cols-3 gap-3">
-                      <div className="flex items-center gap-2 text-sm">
-                        {approachChecks.minChars ? (
-                          <Check className="h-4 w-4 text-success" />
-                        ) : (
-                          <Circle className="h-4 w-4 text-muted-foreground" />
-                        )}
-                        <span>Enough detail</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm">
-                        {approachChecks.complexity ? (
-                          <Check className="h-4 w-4 text-success" />
-                        ) : (
-                          <Circle className="h-4 w-4 text-muted-foreground" />
-                        )}
-                        <span>Complexity included</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm">
-                        {approachChecks.edgeCases ? (
-                          <Check className="h-4 w-4 text-success" />
-                        ) : (
-                          <Circle className="h-4 w-4 text-muted-foreground" />
-                        )}
-                        <span>Edge cases covered</span>
-                      </div>
-                    </div>
+                        <div className="grid md:grid-cols-3 gap-3">
+                          <div className="flex items-center gap-2 text-sm">
+                            {approachChecks.minChars ? (
+                              <Check className="h-4 w-4 text-success" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-muted-foreground" />
+                            )}
+                            <span>Enough detail</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm">
+                            {approachChecks.complexity ? (
+                              <Check className="h-4 w-4 text-success" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-muted-foreground" />
+                            )}
+                            <span>Complexity included</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm">
+                            {approachChecks.edgeCases ? (
+                              <Check className="h-4 w-4 text-success" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-muted-foreground" />
+                            )}
+                            <span>Edge cases covered</span>
+                          </div>
+                        </div>
 
-                    <Textarea
-                      value={approachText}
-                      onChange={(e) => setApproachText(e.target.value)}
-                      placeholder="Explain your approach here...&#10;&#10;1. What data structure will you use?&#10;2. What is your algorithm?&#10;3. What is the time and space complexity?&#10;4. What edge cases should you consider?"
-                      className="min-h-[200px]"
-                    />
+                        <Textarea
+                          value={approachText}
+                          onChange={(e) => setApproachText(e.target.value)}
+                          placeholder="Explain your approach here...&#10;&#10;1. What data structure will you use?&#10;2. What is your algorithm?&#10;3. What is the time and space complexity?&#10;4. What edge cases should you consider?"
+                          className="min-h-[200px]"
+                        />
 
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">
-                        {approachText.length}/{MIN_APPROACH_CHARS} characters minimum
-                      </span>
-                      <Button
-                        variant={canUnlockCode ? "hero" : "secondary"}
-                        onClick={handleUnlockCode}
-                        disabled={!canUnlockCode}
-                      >
-                        <Unlock className="h-4 w-4 mr-2" />
-                        Unlock Code Editor
-                      </Button>
-                    </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-muted-foreground">
+                            {approachText.length}/{MIN_APPROACH_CHARS} characters minimum
+                          </span>
+                          <Button
+                            variant={canUnlockCode ? "hero" : "secondary"}
+                            onClick={handleUnlockCode}
+                            disabled={!canUnlockCode}
+                          >
+                            <Unlock className="h-4 w-4 mr-2" />
+                            Unlock Code Editor
+                          </Button>
+                        </div>
+                      </>
+                    )}
                   </CardContent>
                 </Card>
               )}
@@ -618,6 +708,39 @@ const InterviewMode = () => {
                         <p>Pacing: <span className="text-foreground font-medium">{interviewScores.pacing}%</span></p>
                         <p>Tests: <span className="text-foreground font-medium">{testStatus === "pass" ? "Passed" : testStatus === "fail" ? "Failed" : "Not run"}</span></p>
                         <p>Problem: <span className="text-foreground font-medium">{activeProblem?.title}</span></p>
+                      </div>
+                    </div>
+
+                    {/* FAANG Behavioral & Technical Assessment Breakdown */}
+                    <div className="bg-secondary/40 border border-border/80 rounded-xl p-4 mb-6 space-y-3">
+                      <div className="flex items-center gap-2 font-bold text-sm text-foreground">
+                        <Bot className="h-4 w-4 text-primary" />
+                        FAANG Phone Screen Verbal Checklist:
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                        <div className="p-2.5 rounded-lg bg-background border border-border/60 flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                          <div>
+                            <p className="font-semibold text-foreground">Stated Assumptions</p>
+                            <p className="text-muted-foreground text-[11px]">Inputs & edge-cases</p>
+                          </div>
+                        </div>
+
+                        <div className="p-2.5 rounded-lg bg-background border border-border/60 flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                          <div>
+                            <p className="font-semibold text-foreground">Verified Constraints</p>
+                            <p className="text-muted-foreground text-[11px]">Boundaries & Big-O</p>
+                          </div>
+                        </div>
+
+                        <div className="p-2.5 rounded-lg bg-background border border-border/60 flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                          <div>
+                            <p className="font-semibold text-foreground">Explained Trade-offs</p>
+                            <p className="text-muted-foreground text-[11px]">Time vs space balanced</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
 

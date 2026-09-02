@@ -37,7 +37,6 @@ services:
   - type: web
     name: dsa-logic-builder-frontend
     runtime: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist

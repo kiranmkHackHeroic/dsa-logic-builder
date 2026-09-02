@@ -27,7 +27,7 @@
 
 <br/>
 
-[🌟 7-Step Framework](#-feature-spotlight-1-the-7-step-dsa-mastery-framework) • [🤖 AI Dry Run](#-feature-spotlight-2-ai-powered-code-dry-run-engine) • [🚀 Cloud Deployment](#-production-deployment-guide) • [💻 Local Setup](#-local-development-setup) • [📡 API Reference](#-api-endpoints)
+[🌟 7-Step Framework](#-feature-spotlight-1-the-7-step-dsa-mastery-framework) • [🤖 AI Dry Run](#-feature-spotlight-2-ai-powered-code-dry-run-engine) • [💻 Local Setup](#-local-development-setup) • [📡 API Reference](#-api-endpoints) • [🗄️ Database Schema](#️-database-schema)
 
 </div>
 
@@ -167,67 +167,6 @@ dsa-logic-builder/
 ├── LICENSE                       # MIT License
 └── README.md                     # Comprehensive project documentation
 ```
-
----
-
-## 🚀 Production Deployment Guide
-
-Deploying DSA Logic Builder is clean and modular: the **Frontend** runs on **Vercel**, the **Backend** runs on **Render**, and the **Database** runs on **Aiven** or **Railway**.
-
-### Part 1: Provision the MySQL Database
-
-1. **Create Free MySQL Service on [Aiven.io](https://aiven.io)** (or [Railway.app](https://railway.app)):
-   - Create a service -> Select **MySQL 8.0** -> Select **Free** plan.
-   - Wait until status is **Running**.
-   - Copy the **Service URI** (e.g. `mysql://avnadmin:password@host:port/defaultdb?ssl-mode=REQUIRED`).
-
-2. **Initialize Schema & Create Tables**:
-   Run the migration script directly from your terminal:
-   ```bash
-   DATABASE_URL="YOUR_SERVICE_URI" MYSQL_SSL=true npm run setup:db
-   ```
-   *(All tables `users`, `problem_progress`, `user_streaks`, `user_bookmarks`, `user_notes` will be created automatically inside `dsa_logic_builder`).*
-
----
-
-### Part 2: Deploy Backend to Render
-
-1. Go to **[dashboard.render.com](https://dashboard.render.com)**.
-2. Click **"New +"** > **"Web Service"** > Connect your GitHub repository (`dsa-logic-builder`).
-3. Configure settings:
-   - **Name**: `dsa-logic-builder-api`
-   - **Root Directory**: `backend`
-   - **Runtime**: `Node`
-   - **Build Command**: `npm install`
-   - **Start Command**: `node index.js`
-   - **Instance Type**: `Free`
-4. Add **Environment Variables**:
-   | Variable | Value | Description |
-   |---|---|---|
-   | `PORT` | `10000` | Render port binding |
-   | `DATABASE_URL` | `mysql://avnadmin:pass@host:port/dsa_logic_builder` | Your cloud MySQL URI |
-   | `MYSQL_SSL` | `true` | Required for cloud databases |
-   | `JWT_SECRET` | *(A long random secret string)* | Session token signing |
-   | `GEMINI_API_KEY` | *(Your Gemini API key)* | Required for AI dry run |
-5. Click **Create Web Service**. Once live, copy your backend URL:
-   `https://dsa-logic-builder-api.onrender.com`
-   *(Verify via `https://dsa-logic-builder-api.onrender.com/api/health` -> `{"status":"ok"}`).*
-
----
-
-### Part 3: Deploy Frontend to Vercel
-
-1. Go to **[vercel.com/new](https://vercel.com/new)**.
-2. Import your GitHub repository (`dsa-logic-builder`).
-3. Configure settings:
-   - **Root Directory**: Click **Edit** -> select **`frontend`** -> Click **Continue**.
-   - **Framework Preset**: `Vite` *(auto-detected)*.
-   - **Build and Output Settings**: Leave all default toggles **OFF**.
-4. Add **Environment Variable**:
-   | Key | Value |
-   |---|---|
-   | `VITE_API_URL` | `https://dsa-logic-builder-api.onrender.com` *(from Part 2)* |
-5. Click **Deploy**. Vercel will build and assign you your live production URL (e.g. `https://dsa-logic-builder.vercel.app`)!
 
 ---
 

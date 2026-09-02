@@ -2,26 +2,78 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle, FileText, Clock, HardDrive, AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { CheckCircle, FileText, Clock, HardDrive, Check, AlertTriangle, ShieldCheck } from "lucide-react";
+import { useState, useMemo } from "react";
 
 interface FinalApproachStepProps {
+  problem?: {
+    title?: string;
+    timeComplexity?: { brute: string; optimal: string };
+    spaceComplexity?: { brute: string; optimal: string };
+  };
   onComplete: () => void;
   isActive: boolean;
   isCompleted: boolean;
 }
 
-const FinalApproachStep = ({ onComplete, isActive, isCompleted }: FinalApproachStepProps) => {
+const normalizeComp = (str: string) =>
+  str
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "")
+    .trim();
+
+const FinalApproachStep = ({
+  problem,
+  onComplete,
+  isActive,
+  isCompleted,
+}: FinalApproachStepProps) => {
   const [approach, setApproach] = useState("");
   const [timeComplexity, setTimeComplexity] = useState("");
   const [spaceComplexity, setSpaceComplexity] = useState("");
   const [edgeCases, setEdgeCases] = useState("");
 
-  const isReady = 
-    approach.length >= 50 && 
-    timeComplexity.length >= 3 && 
-    spaceComplexity.length >= 3 && 
-    edgeCases.length >= 20;
+  const expectedTime = problem?.timeComplexity?.optimal || "O(n)";
+  const expectedSpace = problem?.spaceComplexity?.optimal || "O(n)";
+
+  // Validation logic checking optimal time and space complexity against this problem
+  const validation = useMemo(() => {
+    const approachValid = approach.trim().length >= 35;
+    const edgeCasesValid = edgeCases.trim().length >= 15;
+
+    const normUserTime = normalizeComp(timeComplexity);
+    const normExpTime = normalizeComp(expectedTime);
+    const timeValid =
+      normUserTime.length > 0 &&
+      (normUserTime === normExpTime ||
+        normUserTime.includes(normExpTime) ||
+        normExpTime.includes(normUserTime));
+
+    const normUserSpace = normalizeComp(spaceComplexity);
+    const normExpSpace = normalizeComp(expectedSpace);
+    const spaceValid =
+      normUserSpace.length > 0 &&
+      (normUserSpace === normExpSpace ||
+        normUserSpace.includes(normExpSpace) ||
+        normExpSpace.includes(normUserSpace));
+
+    const isValid = approachValid && edgeCasesValid && timeValid && spaceValid;
+
+    return {
+      approachValid,
+      edgeCasesValid,
+      timeValid,
+      spaceValid,
+      isValid,
+    };
+  }, [approach, edgeCases, timeComplexity, spaceComplexity, expectedTime, expectedSpace]);
+
+  const handleComplete = () => {
+    if (validation.isValid) {
+      onComplete();
+    }
+  };
 
   return (
     <Card variant={isActive ? "step-active" : isCompleted ? "step-completed" : "step-locked"}>
@@ -42,13 +94,14 @@ const FinalApproachStep = ({ onComplete, isActive, isCompleted }: FinalApproachS
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Instruction */}
-        <div className="bg-success/10 border border-success/20 rounded-lg p-4">
+        <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <FileText className="h-5 w-5 text-success mt-0.5" />
+            <FileText className="h-5 w-5 text-primary mt-0.5 shrink-0" />
             <div>
-              <h5 className="font-medium text-success">Explain Your Optimal Solution</h5>
+              <h5 className="font-medium text-primary">Explain Your Optimal Solution</h5>
               <p className="text-sm text-muted-foreground mt-1">
-                Write out your complete approach in plain English. No code yet - just logic!
+                Write out your complete algorithm in plain logic. Validate that your Time and Space
+                complexities match the optimal bounds for <strong>{problem?.title || "this problem"}</strong>.
               </p>
             </div>
           </div>
@@ -59,69 +112,135 @@ const FinalApproachStep = ({ onComplete, isActive, isCompleted }: FinalApproachS
             {/* Approach */}
             <div>
               <label className="block text-sm font-medium mb-2">
-                Describe your optimal approach step by step:
+                Describe your step-by-step optimal algorithm:
               </label>
               <Textarea
                 value={approach}
                 onChange={(e) => setApproach(e.target.value)}
-                placeholder="1. Create an empty hash map to store numbers we've seen&#10;2. For each number in the array:&#10;   a. Calculate its complement (target - current)&#10;   b. Check if complement exists in hash map&#10;   c. If yes, return the indices&#10;   d. If no, add current number and index to hash map&#10;3. If no pair found, return empty/null"
-                className="min-h-[150px] font-mono text-sm"
+                placeholder="1. Initialize data structures/pointers...&#10;2. Traverse input while maintaining loop invariant...&#10;3. Compute intermediate conditions...&#10;4. Return final result or handle termination..."
+                className="min-h-[130px] font-mono text-xs"
               />
             </div>
 
-            {/* Complexity Analysis */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Complexity Analysis with Live Validation */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2 flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
-                  Time Complexity
-                </label>
-                <Textarea
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-semibold flex items-center gap-1.5 text-foreground">
+                    <Clock className="h-3.5 w-3.5 text-primary" />
+                    Optimal Time Complexity:
+                  </label>
+                  {timeComplexity && (
+                    validation.timeValid ? (
+                      <span className="text-primary text-xs font-bold flex items-center gap-1">
+                        <Check className="h-3 w-3" /> Matches {expectedTime}
+                      </span>
+                    ) : (
+                      <span className="text-destructive text-[11px] font-medium flex items-center gap-1">
+                        <AlertTriangle className="h-3 w-3" /> Expected: {expectedTime}
+                      </span>
+                    )
+                  )}
+                </div>
+                <Input
                   value={timeComplexity}
                   onChange={(e) => setTimeComplexity(e.target.value)}
-                  placeholder="O(n) - we iterate once, hash map operations are O(1)"
-                  className="min-h-[60px]"
+                  placeholder={`E.g. ${expectedTime}`}
+                  className="font-mono text-sm"
                 />
               </div>
+
               <div>
-                <label className="block text-sm font-medium mb-2 flex items-center gap-2">
-                  <HardDrive className="h-4 w-4" />
-                  Space Complexity
-                </label>
-                <Textarea
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-semibold flex items-center gap-1.5 text-foreground">
+                    <HardDrive className="h-3.5 w-3.5 text-accent" />
+                    Optimal Space Complexity:
+                  </label>
+                  {spaceComplexity && (
+                    validation.spaceValid ? (
+                      <span className="text-primary text-xs font-bold flex items-center gap-1">
+                        <Check className="h-3 w-3" /> Matches {expectedSpace}
+                      </span>
+                    ) : (
+                      <span className="text-destructive text-[11px] font-medium flex items-center gap-1">
+                        <AlertTriangle className="h-3 w-3" /> Expected: {expectedSpace}
+                      </span>
+                    )
+                  )}
+                </div>
+                <Input
                   value={spaceComplexity}
                   onChange={(e) => setSpaceComplexity(e.target.value)}
-                  placeholder="O(n) - worst case, we store all n elements in the hash map"
-                  className="min-h-[60px]"
+                  placeholder={`E.g. ${expectedSpace}`}
+                  className="font-mono text-sm"
                 />
               </div>
             </div>
 
             {/* Edge Cases */}
             <div>
-              <label className="block text-sm font-medium mb-2 flex items-center gap-2">
-                <AlertCircle className="h-4 w-4" />
-                What edge cases should you handle?
+              <label className="block text-sm font-medium mb-2 flex items-center gap-1.5">
+                <ShieldCheck className="h-4 w-4 text-warning" />
+                Critical Edge Cases to Guard Against:
               </label>
               <Textarea
                 value={edgeCases}
                 onChange={(e) => setEdgeCases(e.target.value)}
-                placeholder="- Empty array&#10;- Array with single element&#10;- No valid pair exists&#10;- Duplicate numbers (same element used twice)&#10;- Negative numbers"
-                className="min-h-[100px]"
+                placeholder="E.g., Empty input, single element, duplicate elements, negative numbers, maximum boundary sizes..."
+                className="min-h-[75px] text-xs"
               />
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-border">
+            {/* Validation Feedback Box */}
+            <div className="bg-secondary/40 border border-border/50 rounded-lg p-3 text-xs space-y-1.5">
+              <div className="flex items-center justify-between font-semibold">
+                <span className="text-foreground">Step 5 Input Validation:</span>
+                {validation.isValid ? (
+                  <span className="text-primary font-bold flex items-center gap-1">
+                    <Check className="h-3.5 w-3.5" /> Optimal Approach Validated
+                  </span>
+                ) : (
+                  <span className="text-warning font-medium flex items-center gap-1">
+                    <AlertTriangle className="h-3.5 w-3.5" /> Validation Pending
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className={validation.approachValid ? "text-primary" : "text-muted-foreground"}>
+                  {validation.approachValid ? "✓" : "○"} Step-by-step logic description ({approach.trim().length}/35)
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={validation.timeValid ? "text-primary" : "text-muted-foreground"}>
+                  {validation.timeValid ? "✓" : "○"} Correct optimal time complexity ({expectedTime})
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={validation.spaceValid ? "text-primary" : "text-muted-foreground"}>
+                  {validation.spaceValid ? "✓" : "○"} Correct optimal space complexity ({expectedSpace})
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={validation.edgeCasesValid ? "text-primary" : "text-muted-foreground"}>
+                  {validation.edgeCasesValid ? "✓" : "○"} Guarded edge cases ({edgeCases.trim().length}/15)
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
               <span className="text-xs text-muted-foreground">
-                {!isReady ? "Complete all fields before coding" : "✓ Ready to code!"}
+                {validation.isValid
+                  ? "✓ Final approach fully validated. Code editor unlocked!"
+                  : "Fill in all valid complexities and edge cases to unlock the code editor."}
               </span>
               <Button
-                onClick={onComplete}
-                disabled={!isReady}
-                variant={isReady ? "hero" : "secondary"}
-                size="lg"
+                onClick={handleComplete}
+                disabled={!validation.isValid}
+                variant={validation.isValid ? "default" : "secondary"}
+                className="font-semibold"
               >
-                🎉 Unlock Code Editor
+                Proceed to Coding
               </Button>
             </div>
           </>

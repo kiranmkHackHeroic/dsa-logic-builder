@@ -2,11 +2,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle, AlertTriangle, Zap } from "lucide-react";
-import { useState } from "react";
+import { CheckCircle, Zap, Check, AlertTriangle } from "lucide-react";
+import { useState, useMemo } from "react";
 
 interface BruteForceStepProps {
   constraints: string[];
+  problem?: {
+    title?: string;
+    timeComplexity?: { brute: string; optimal: string };
+    spaceComplexity?: { brute: string; optimal: string };
+  };
   onComplete: () => void;
   isActive: boolean;
   isCompleted: boolean;
@@ -22,18 +27,46 @@ const complexityOptions = [
   { value: "O(2^n)", label: "O(2^n) - Exponential" },
 ];
 
-const BruteForceStep = ({ constraints, onComplete, isActive, isCompleted }: BruteForceStepProps) => {
+const normalizeComplexity = (c: string) =>
+  c.toLowerCase().replace(/\s+/g, "").replace(/\^/g, "").replace(/²/g, "2").replace(/³/g, "3");
+
+const BruteForceStep = ({
+  constraints,
+  problem,
+  onComplete,
+  isActive,
+  isCompleted,
+}: BruteForceStepProps) => {
   const [approach, setApproach] = useState("");
   const [selectedComplexity, setSelectedComplexity] = useState("");
-  const [showAnalysis, setShowAnalysis] = useState(false);
 
-  const handleAnalyze = () => {
-    if (approach.length >= 20 && selectedComplexity) {
-      setShowAnalysis(true);
+  const expectedBrute = problem?.timeComplexity?.brute || "O(n²)";
+
+  // Validation logic checking both description and correct complexity for the active problem
+  const validation = useMemo(() => {
+    const approachValid = approach.trim().length >= 25;
+    const isComplexitySelected = Boolean(selectedComplexity);
+
+    // Validate if the selected complexity matches the problem's actual brute force bound
+    const complexityCorrect =
+      isComplexitySelected &&
+      normalizeComplexity(selectedComplexity) === normalizeComplexity(expectedBrute);
+
+    const isValid = approachValid && complexityCorrect;
+
+    return {
+      approachValid,
+      isComplexitySelected,
+      complexityCorrect,
+      isValid,
+    };
+  }, [approach, selectedComplexity, expectedBrute]);
+
+  const handleComplete = () => {
+    if (validation.isValid) {
+      onComplete();
     }
   };
-
-  const isReady = showAnalysis;
 
   return (
     <Card variant={isActive ? "step-active" : isCompleted ? "step-completed" : "step-locked"}>
@@ -56,12 +89,13 @@ const BruteForceStep = ({ constraints, onComplete, isActive, isCompleted }: Brut
         {/* Instruction */}
         <div className="bg-warning/10 border border-warning/20 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <Zap className="h-5 w-5 text-warning mt-0.5" />
+            <Zap className="h-5 w-5 text-warning mt-0.5 shrink-0" />
             <div>
-              <h5 className="font-medium text-warning">Start Simple</h5>
+              <h5 className="font-medium text-warning">Start Simple (Baseline)</h5>
               <p className="text-sm text-muted-foreground mt-1">
-                What is the most straightforward solution, even if slow? 
-                This helps you understand the problem better before optimizing.
+                What is the most straightforward, naive solution for{" "}
+                <strong>{problem?.title || "this problem"}</strong>? Identify why this naive
+                baseline fails given constraints like <code>{constraints?.[0] || "N <= 10^5"}</code>.
               </p>
             </div>
           </div>
@@ -69,88 +103,105 @@ const BruteForceStep = ({ constraints, onComplete, isActive, isCompleted }: Brut
 
         {isActive && (
           <>
-            {/* Brute Force Approach */}
+            {/* Brute Force Approach Description */}
             <div>
               <label className="block text-sm font-medium mb-2">
-                Describe your naive/brute force approach:
+                Describe your naive / brute force approach:
               </label>
               <Textarea
                 value={approach}
                 onChange={(e) => setApproach(e.target.value)}
-                placeholder="For each element, I would check every other element to find if their sum equals target. This means using two nested loops..."
+                placeholder="Explain the nested loops, exhaustive search, or recursion you would try first..."
                 className="min-h-[100px]"
               />
             </div>
 
-            {/* Complexity Selection */}
+            {/* Complexity Selection with Real Problem Validation */}
             <div>
-              <label className="block text-sm font-medium mb-2">
-                What would be the time complexity of this approach?
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium">
+                  What is the accurate Time Complexity of this brute force approach?
+                </label>
+                {selectedComplexity && (
+                  validation.complexityCorrect ? (
+                    <span className="text-primary text-xs font-bold flex items-center gap-1">
+                      <Check className="h-3.5 w-3.5" /> Correct: {expectedBrute}
+                    </span>
+                  ) : (
+                    <span className="text-destructive text-xs font-medium flex items-center gap-1">
+                      <AlertTriangle className="h-3.5 w-3.5" /> Incorrect complexity for naive approach
+                    </span>
+                  )
+                )}
+              </div>
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {complexityOptions.map((option) => (
-                  <Button
-                    key={option.value}
-                    variant={selectedComplexity === option.value ? "step-active" : "step"}
-                    size="sm"
-                    onClick={() => setSelectedComplexity(option.value)}
-                    className="text-xs"
-                  >
-                    {option.label}
-                  </Button>
-                ))}
+                {complexityOptions.map((option) => {
+                  const isSelected = selectedComplexity === option.value;
+                  return (
+                    <Button
+                      key={option.value}
+                      type="button"
+                      variant={isSelected ? "step-active" : "step"}
+                      size="sm"
+                      onClick={() => setSelectedComplexity(option.value)}
+                      className="text-xs font-medium"
+                    >
+                      {option.label}
+                    </Button>
+                  );
+                })}
+              </div>
+
+              {selectedComplexity && !validation.complexityCorrect && (
+                <p className="text-xs text-destructive mt-2">
+                  💡 Hint: A naive exhaustive scan checking all combinations takes {expectedBrute}. Re-select the correct complexity.
+                </p>
+              )}
+            </div>
+
+            {/* Input Space Validation Box */}
+            <div className="bg-secondary/40 border border-border/50 rounded-lg p-3 text-xs space-y-1.5">
+              <div className="flex items-center justify-between font-semibold">
+                <span className="text-foreground">Step 3 Input Validation:</span>
+                {validation.isValid ? (
+                  <span className="text-primary font-bold flex items-center gap-1">
+                    <Check className="h-3.5 w-3.5" /> Correct Complexity & Approach
+                  </span>
+                ) : (
+                  <span className="text-warning font-medium flex items-center gap-1">
+                    <AlertTriangle className="h-3.5 w-3.5" /> Validation Pending
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className={validation.approachValid ? "text-primary" : "text-muted-foreground"}>
+                  {validation.approachValid ? "✓" : "○"} Naive approach description ({approach.trim().length}/25)
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={validation.complexityCorrect ? "text-primary" : "text-muted-foreground"}>
+                  {validation.complexityCorrect ? "✓" : "○"} Correct brute force complexity ({expectedBrute})
+                </span>
               </div>
             </div>
 
-            {/* Analyze Button */}
-            {!showAnalysis && (
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-xs text-muted-foreground">
+                {validation.isValid
+                  ? "✓ Brute force baseline validated. Ready to optimize!"
+                  : "Select the correct brute force complexity to unlock the next step."}
+              </span>
               <Button
-                onClick={handleAnalyze}
-                disabled={approach.length < 20 || !selectedComplexity}
-                className="w-full"
+                onClick={handleComplete}
+                disabled={!validation.isValid}
+                variant={validation.isValid ? "default" : "secondary"}
+                className="font-semibold"
               >
-                Analyze Against Constraints
+                Confirm Brute Force
               </Button>
-            )}
-
-            {/* Constraint Analysis */}
-            {showAnalysis && (
-              <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4 animate-fade-in">
-                <div className="flex items-start gap-3">
-                  <AlertTriangle className="h-5 w-5 text-destructive mt-0.5" />
-                  <div>
-                    <h5 className="font-medium text-destructive">Why This Won't Work</h5>
-                    <div className="text-sm text-muted-foreground mt-2 space-y-2">
-                      <p>
-                        With <strong>{selectedComplexity}</strong> complexity and constraints:
-                      </p>
-                      <ul className="list-disc list-inside space-y-1 font-mono text-xs">
-                        {constraints.map((c, idx) => (
-                          <li key={idx}>{c}</li>
-                        ))}
-                      </ul>
-                      <p className="pt-2">
-                        {selectedComplexity === "O(n²)" && (
-                          <>For n = 10⁴, this means ~10⁸ operations. Most systems allow ~10⁸ operations/second, so this is on the edge. We need something faster.</>
-                        )}
-                        {selectedComplexity === "O(n³)" && (
-                          <>For n = 10⁴, this means ~10¹² operations - way too slow! We definitely need optimization.</>
-                        )}
-                        {selectedComplexity === "O(n)" && (
-                          <>O(n) is efficient! But let's verify if we can actually achieve this, or if we need O(n log n).</>
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 pt-4 border-t border-border">
-                  <Button onClick={onComplete} variant="success" className="w-full">
-                    Understood! Let's Optimize
-                  </Button>
-                </div>
-              </div>
-            )}
+            </div>
           </>
         )}
       </CardContent>

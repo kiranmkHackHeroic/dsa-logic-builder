@@ -77,6 +77,9 @@ const ProblemSolving = () => {
             "Validate edge cases before final submission.",
           ],
     leetcodeUrl: getLeetCodeUrl(problem?.title || companyProblem?.title || `problem-${problemId}`, companyProblem?.leetcodeUrl),
+    timeComplexity: problem?.timeComplexity || { brute: "O(n²)", optimal: "O(n)" },
+    spaceComplexity: problem?.spaceComplexity || { brute: "O(1)", optimal: "O(n)" },
+    hints: problem?.hints || [],
   };
   
   const [currentStep, setCurrentStep] = useState(1);
@@ -222,6 +225,7 @@ const ProblemSolving = () => {
       case 2:
         return (
           <HumanThinkingStep
+            problem={problemData}
             onComplete={() => void completeStep(2)}
             isActive={true}
             isCompleted={completedSteps.includes(2)}
@@ -230,6 +234,7 @@ const ProblemSolving = () => {
       case 3:
         return (
           <BruteForceStep
+            problem={problemData}
             constraints={problemData.constraints}
             onComplete={() => void completeStep(3)}
             isActive={true}
@@ -239,6 +244,7 @@ const ProblemSolving = () => {
       case 4:
         return (
           <OptimizationStep
+            problem={problemData}
             onComplete={() => void completeStep(4)}
             isActive={true}
             isCompleted={completedSteps.includes(4)}
@@ -247,6 +253,7 @@ const ProblemSolving = () => {
       case 5:
         return (
           <FinalApproachStep
+            problem={problemData}
             onComplete={() => void completeStep(5)}
             isActive={true}
             isCompleted={completedSteps.includes(5)}

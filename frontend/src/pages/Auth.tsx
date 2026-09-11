@@ -194,6 +194,46 @@ const Auth = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {/* Quick Demo Mode Banner */}
+            <div className="mb-6 p-3.5 rounded-xl border border-primary/30 bg-primary/5 flex flex-col gap-2 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  <span className="text-xs font-bold text-primary uppercase tracking-wider">Instant Demo Mode</span>
+                </div>
+                <Badge variant="outline" className="text-[10px] border-primary/40 text-primary font-medium">Free Access</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Skip registration to instantly explore all interactive DSA problems, algorithms, and logic tools.
+              </p>
+              <Button
+                type="button"
+                variant="default"
+                size="sm"
+                className="w-full gap-2 mt-1 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-sm"
+                onClick={() => {
+                  continueAsGuest();
+                  toast({
+                    title: "Welcome, Guest Explorer!",
+                    description: "You are exploring in Demo Mode with full access!",
+                  });
+                  navigate("/dashboard");
+                }}
+              >
+                <Sparkles className="h-4 w-4" />
+                Explore as Guest (Instant Access)
+              </Button>
+            </div>
+
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card px-2 text-muted-foreground font-medium">Or Sign In with Email</span>
+              </div>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
                 <div className="space-y-2">

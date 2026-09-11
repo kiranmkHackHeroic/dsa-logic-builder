@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
+import { Brain, Mail, Lock, User, ArrowRight, Loader2, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { checkRateLimit, RATE_LIMITS, formatRemainingTime } from "@/lib/rateLimit";
@@ -35,7 +35,7 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, continueAsGuest } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -89,7 +89,17 @@ const Auth = () => {
       if (isLogin) {
         const { error } = await signIn(email, password);
         if (error) {
-          if (error.message.includes("Invalid login credentials")) {
+          if (
+            error.message.includes("Database service unavailable") ||
+            error.message.includes("503") ||
+            error.message.includes("Internal server error")
+          ) {
+            toast({
+              title: "Cloud Database Unavailable",
+              description: "The backend cannot reach the MySQL database. You can click 'Continue as Guest' below to start using the app immediately!",
+              variant: "destructive",
+            });
+          } else if (error.message.includes("Invalid login credentials") || error.message.includes("Invalid email or password")) {
             toast({
               title: "Login failed",
               description: "Invalid email or password. Please try again.",
@@ -112,7 +122,17 @@ const Auth = () => {
       } else {
         const { error } = await signUp(email, password, displayName);
         if (error) {
-          if (error.message.includes("User already registered")) {
+          if (
+            error.message.includes("Database service unavailable") ||
+            error.message.includes("503") ||
+            error.message.includes("Internal server error")
+          ) {
+            toast({
+              title: "Cloud Database Unavailable",
+              description: "The backend cannot reach the MySQL database. You can click 'Continue as Guest' below to start using the app immediately!",
+              variant: "destructive",
+            });
+          } else if (error.message.includes("User already registered") || error.message.includes("Email already registered")) {
             toast({
               title: "Account exists",
               description: "An account with this email already exists. Please log in instead.",
@@ -136,7 +156,7 @@ const Auth = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "An unexpected error occurred. Please try again.",
+        description: "An unexpected error occurred. Please try again or use Guest mode.",
         variant: "destructive",
       });
     } finally {
@@ -255,7 +275,32 @@ const Auth = () => {
                 )}
               </Button>
 
+              <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-border" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
 
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                className="w-full gap-2 border-primary/30 hover:bg-primary/10 hover:border-primary/60 transition-all text-foreground"
+                onClick={() => {
+                  continueAsGuest();
+                  toast({
+                    title: "Welcome, Guest Explorer!",
+                    description: "Exploring in Demo Mode with full access to DSA logic building.",
+                  });
+                  navigate("/dashboard");
+                }}
+              >
+                <Sparkles className="h-4 w-4 text-primary" />
+                Continue as Guest (Demo Mode)
+              </Button>
             </form>
 
             <div className="mt-6 text-center text-sm">

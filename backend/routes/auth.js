@@ -6,6 +6,32 @@ import { authenticate, signToken } from "../middleware/auth.js";
 
 const router = Router();
 
+function handleAuthError(err, res, action) {
+  console.error(`${action} error:`, err);
+  const isDbError =
+    err.code === "ECONNREFUSED" ||
+    err.code === "ENOTFOUND" ||
+    err.code === "ETIMEDOUT" ||
+    err.code === "ER_ACCESS_DENIED_ERROR" ||
+    err.code === "ER_BAD_DB_ERROR" ||
+    err.code === "PROTOCOL_CONNECTION_LOST" ||
+    (typeof err.message === "string" && (
+      err.message.includes("connect ECONNREFUSED") ||
+      err.message.includes("Access denied for user") ||
+      (err.message.includes("Table") && err.message.includes("doesn't exist"))
+    ));
+
+  if (isDbError) {
+    return res.status(503).json({
+      error: "Database service unavailable: The backend cannot reach MySQL. Please configure DATABASE_URL or MYSQL_HOST in your Render dashboard environment variables.",
+      code: "DB_UNAVAILABLE",
+      details: err.code || err.message,
+    });
+  }
+
+  return res.status(500).json({ error: "Internal server error" });
+}
+
 // ── POST /api/auth/signup ──────────────────────────────────────────
 router.post("/signup", async (req, res) => {
   try {
@@ -36,8 +62,7 @@ router.post("/signup", async (req, res) => {
 
     return res.status(201).json({ user, token });
   } catch (err) {
-    console.error("Signup error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    return handleAuthError(err, res, "Signup");
   }
 });
 
@@ -76,8 +101,7 @@ router.post("/login", async (req, res) => {
 
     return res.json({ user, token });
   } catch (err) {
-    console.error("Login error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    return handleAuthError(err, res, "Login");
   }
 });
 
@@ -95,8 +119,7 @@ router.get("/me", authenticate, async (req, res) => {
 
     return res.json({ user: rows[0] });
   } catch (err) {
-    console.error("Get user error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    return handleAuthError(err, res, "Get user");
   }
 });
 
@@ -119,8 +142,7 @@ router.put("/update-password", authenticate, async (req, res) => {
 
     return res.json({ message: "Password updated" });
   } catch (err) {
-    console.error("Update password error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    return handleAuthError(err, res, "Update password");
   }
 });
 

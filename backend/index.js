@@ -21,6 +21,7 @@ import progressRoutes from "./routes/progress.js";
 import streakRoutes from "./routes/streaks.js";
 import roleRoutes from "./routes/roles.js";
 import dryrunRoutes from "./routes/dryrun.js";
+import { checkDbConnection, ensureSchema } from "./db.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -111,9 +112,15 @@ app.get("/", (_req, res) => {
   });
 });
 
-// Health check
-app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
+// Health check with database connectivity diagnostics
+app.get("/api/health", async (_req, res) => {
+  const dbStatus = await checkDbConnection();
+  res.json({
+    status: dbStatus.connected ? "ok" : "degraded",
+    server: "running",
+    database: dbStatus,
+    timestamp: new Date().toISOString(),
+  });
 });
 
 // 404 catch-all
@@ -131,4 +138,8 @@ app.use((err, _req, res, _next) => {
 const HOST = "0.0.0.0";
 app.listen(PORT, HOST, () => {
   console.log(`🚀 API server running on http://${HOST}:${PORT}`);
+  // Run schema auto-initialization in the background without blocking startup
+  ensureSchema().catch((err) => {
+    console.warn("⚠️  ensureSchema error:", err.message);
+  });
 });

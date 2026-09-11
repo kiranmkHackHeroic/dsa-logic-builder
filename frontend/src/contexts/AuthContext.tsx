@@ -9,14 +9,32 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   resetPassword: (email: string) => Promise<{ error: Error | null }>;
   updatePassword: (newPassword: string) => Promise<{ error: Error | null }>;
+  continueAsGuest: () => void;
   signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const GUEST_STORAGE_KEY = "dsa_guest_user";
+const GUEST_TOKEN = "demo-guest-token";
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const continueAsGuest = () => {
+    const guestUser: AppUser = {
+      id: "guest-user",
+      email: "guest@dsalogicbuilder.com",
+      display_name: "Guest Explorer",
+      avatar_url: null,
+      created_at: new Date().toISOString(),
+      last_sign_in_at: new Date().toISOString(),
+    };
+    setToken(GUEST_TOKEN);
+    localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestUser));
+    setUser(guestUser);
+  };
 
   // On mount, check for existing token and fetch current user
   useEffect(() => {
@@ -26,6 +44,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const token = getToken();
     if (!token) {
+      setLoading(false);
+      window.clearTimeout(bootstrapTimeout);
+      return;
+    }
+
+    // Fast-path for guest demo mode
+    if (token === GUEST_TOKEN) {
+      try {
+        const cached = localStorage.getItem(GUEST_STORAGE_KEY);
+        if (cached) {
+          setUser(JSON.parse(cached));
+        } else {
+          continueAsGuest();
+        }
+      } catch {
+        continueAsGuest();
+      }
       setLoading(false);
       window.clearTimeout(bootstrapTimeout);
       return;
@@ -99,11 +134,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = async () => {
     clearToken();
+    localStorage.removeItem(GUEST_STORAGE_KEY);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, resetPassword, updatePassword, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signUp, signIn, resetPassword, updatePassword, continueAsGuest, signOut }}>
       {children}
     </AuthContext.Provider>
   );
